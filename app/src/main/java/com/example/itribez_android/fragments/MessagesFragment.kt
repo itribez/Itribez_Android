@@ -41,7 +41,6 @@ class MessagesFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         arrayListMsg.add(DataClassMessages(R.drawable.profile_img_temp,"Ayushi Patel","hey there!","20 minutes ago"))
         arrayListMsg.add(DataClassMessages(R.drawable.profile_img_temp,"Indu Pandey","hey there!","20 minutes ago"))
         arrayListMsg.add(DataClassMessages(R.drawable.profile_img_temp,"Dhrumil Desai","hey there!","20 minutes ago"))
