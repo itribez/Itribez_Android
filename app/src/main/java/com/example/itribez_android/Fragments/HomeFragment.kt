@@ -27,8 +27,8 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_messages, container, false)
-        recyclerView = view.findViewById(R.id.recyclerMessages)
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
+        recyclerView = view.findViewById(R.id.recycler_view_home)
         recycleradapter = PostAdapter(arrayList)
         recyclerView.apply {
             layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)

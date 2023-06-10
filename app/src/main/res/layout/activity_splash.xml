@@ -16,4 +16,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:src="@drawable/splash_logo"
         />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
