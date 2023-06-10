@@ -3,6 +3,8 @@ package com.example.itribez_android
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.example.itribez_android.Fragments.HomeFragment
+import com.example.itribez_android.Fragments.ProfileFragment
 import com.example.itribez_android.fragments.MessagesFragment
 import com.example.itribez_android.fragments.NotificationFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -18,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         bottomNav.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> {
-                    loadFragment(NotificationFragment())
+                    loadFragment(HomeFragment())
                     true
                 }
 
@@ -26,19 +28,21 @@ class MainActivity : AppCompatActivity() {
                     loadFragment(MessagesFragment())
                     true
                 }
-                /*            R.id.notification -> {
-                                loadFragment(NotificationFragment())
-                                true
-                            }
-                            R.id.settings -> {
-                                loadFragment(NotificationFragment())
-                                true
-                            }
-            */
-                else -> {
+
+                 R.id.notification -> {
                     loadFragment(NotificationFragment())
                     true
                 }
+                R.id.settings -> {
+                    loadFragment(ProfileFragment())
+                    true
+                }
+
+                else ->{
+                    loadFragment(NotificationFragment())
+                    true
+            }
+
             }
         }
 

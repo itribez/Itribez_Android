@@ -8,10 +8,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.itribez_android.R
-import com.example.itribez_android.adapter.MessageAdapter
-import com.example.itribez_android.adapter.NotificationAdapter
+import com.example.itribez_android.Adapters.MessageAdapter
 import com.example.itribez_android.dataclasses.DataClassMessages
-import com.example.itribez_android.dataclasses.DataClassNotification
 
 class MessagesFragment : Fragment() {
 

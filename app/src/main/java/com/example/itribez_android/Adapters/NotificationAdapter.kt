@@ -1,4 +1,4 @@
-package com.example.itribez_android.adapter
+package com.example.itribez_android.Adapters
 
 import android.view.LayoutInflater
 import android.view.View

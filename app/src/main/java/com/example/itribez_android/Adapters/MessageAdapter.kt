@@ -1,16 +1,14 @@
-package com.example.itribez_android.adapter
+package com.example.itribez_android.Adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.itribez_android.R
 import com.example.itribez_android.dataclasses.DataClassMessages
-import com.example.itribez_android.dataclasses.DataClassNotification
 
 class MessageAdapter(var list: ArrayList<DataClassMessages>) :
     RecyclerView.Adapter<MessageAdapter.ViewHolder>() {

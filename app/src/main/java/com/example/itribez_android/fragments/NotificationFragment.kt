@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.itribez_android.dataclasses.DataClassNotification
 import com.example.itribez_android.R
-import com.example.itribez_android.adapter.NotificationAdapter
+import com.example.itribez_android.Adapters.NotificationAdapter
 
 class NotificationFragment : Fragment() {
 
