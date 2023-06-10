@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity">
+
+    <EditText
+        android:id="@+id/edtTextEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="emailAddress"
+        android:ems="10"
+        android:layout_marginTop="60dp"
+        android:hint="@string/phone_or_email"
+        android:inputType="textEmailAddress"
+        android:textSize="20sp"
+        android:layout_marginHorizontal="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/edtTextPwd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <EditText
+        android:id="@+id/edtTextPwd"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="password"
+        android:ems="10"
+        android:hint="@string/edt_txt_password"
+        android:inputType="textPassword"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnLogin"
+        app:layout_constraintEnd_toEndOf="@id/edtTextEmail"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/edtTextEmail"
+        app:layout_constraintTop_toBottomOf="@+id/edtTextEmail" />
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:background="@drawable/bg_btn_login"
+        android:text="@string/btn_log_in"
+        android:layout_marginTop="30dp"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/txtViewForgotPwd"
+        app:layout_constraintEnd_toEndOf="@id/edtTextPwd"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/edtTextPwd"
+        app:layout_constraintTop_toBottomOf="@+id/edtTextPwd" />
+
+    <TextView
+        android:id="@+id/txtViewForgotPwd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/txtview_forgot_password"
+        android:textColor="@color/blue"
+        android:textSize="16sp"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/txtViewOR"
+        app:layout_constraintEnd_toEndOf="@id/btnLogin"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/btnLogin"
+        app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
+
+    <View
+        android:id="@+id/startView"
+        android:layout_width="150dp"
+        android:layout_height="10dp"
+        android:background="@drawable/horizontal_line"
+        app:layout_constraintBottom_toBottomOf="@id/txtViewOR"
+        app:layout_constraintEnd_toStartOf="@id/txtViewOR"
+        app:layout_constraintTop_toTopOf="@+id/txtViewOR" />
+
+    <TextView
+        android:id="@+id/txtViewOR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/txtview_or"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:layout_marginTop="38dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnSignUp"
+        app:layout_constraintEnd_toEndOf="@id/txtViewForgotPwd"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/txtViewForgotPwd"
+        app:layout_constraintTop_toBottomOf="@+id/txtViewForgotPwd" />
+
+    <View
+        android:id="@+id/endView"
+        android:layout_width="150dp"
+        android:layout_height="10dp"
+        android:background="@drawable/horizontal_line"
+        app:layout_constraintTop_toTopOf="@+id/txtViewOR"
+        app:layout_constraintStart_toEndOf="@id/txtViewOR"
+        app:layout_constraintBottom_toBottomOf="@id/txtViewOR"/>
+<!--
+
+    <ImageView
+        android:layout_marginTop="30dp"
+        android:id="@+id/iconGoogle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/iconFB"
+        app:layout_constraintEnd_toEndOf="@+id/txtViewOR"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/txtViewOR"
+        app:layout_constraintTop_toBottomOf="@+id/txtViewOR"
+        app:srcCompat="@drawable/google_icon" />
+
+    <ImageView
+        android:id="@+id/iconFB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/iconGoogle"
+        app:layout_constraintTop_toTopOf="@+id/iconGoogle"
+        app:layout_constraintBottom_toBottomOf="@id/iconGoogle"
+        app:layout_constraintBottom_toTopOf="@id/btnSignUp"
+        app:srcCompat="@drawable/fb_icon" />
+-->
+
+    <Button
+        android:id="@+id/btnSignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_button"
+        android:paddingHorizontal="52dp"
+        app:layout_constraintTop_toBottomOf="@id/txtViewOR"
+        android:text="@string/btn_create_new_account"
+        android:textAllCaps="false"
+        android:textSize="14sp"
+        app:cornerRadius="15dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
