@@ -10,7 +10,7 @@ import com.example.itribez_android.fragments.NotificationFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
-    lateinit var bottomNav : BottomNavigationView
+    lateinit var bottomNav: BottomNavigationView
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -23,10 +23,12 @@ class MainActivity : AppCompatActivity() {
                     loadFragment(HomeFragment())
                     true
                 }
+
                 R.id.create -> {
                     loadFragment(MessagesFragment())
                     true
                 }
+
                  R.id.notification -> {
                     loadFragment(NotificationFragment())
                     true
@@ -40,13 +42,16 @@ class MainActivity : AppCompatActivity() {
                     loadFragment(HomeFragment())
                     true
             }
+
             }
         }
 
+
     }
-    private fun loadFragment(fragment: Fragment){
+
+    private fun loadFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.placeHolder,fragment)
+        transaction.replace(R.id.placeHolder, fragment)
         transaction.commit()
     }
 
