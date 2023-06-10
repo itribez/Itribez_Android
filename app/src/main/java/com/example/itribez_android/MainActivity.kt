@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        loadFragment(MessagesFragment())
+        loadFragment(HomeFragment())
         bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
         bottomNav.setOnItemSelectedListener {
             when (it.itemId) {
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 else ->{
-                    loadFragment(NotificationFragment())
+                    loadFragment(HomeFragment())
                     true
             }
             }

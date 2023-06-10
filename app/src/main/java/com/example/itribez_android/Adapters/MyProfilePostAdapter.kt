@@ -33,7 +33,7 @@ class MyProfilePostAdapter(private val mContext: Context, private  val mPost:Lis
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val post=mPost[position]
+//        val post=mPost[position]
 
 
         }

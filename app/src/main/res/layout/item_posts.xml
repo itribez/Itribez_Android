@@ -46,7 +46,7 @@
             android:layout_height="220dp"
             android:layout_margin="5dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/profile" />
+            android:src="@drawable/landscape" />
 
         <RelativeLayout
             android:id="@+id/likes_comment_save_bar"
