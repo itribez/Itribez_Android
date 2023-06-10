@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Itribez_Android</string>
+    <string name="phone_or_email">Phone or Email</string>
+    <string name="edt_txt_password">Password</string>
+    <string name="btn_log_in">Log In</string>
+    <string name="txtview_forgot_password">Forgot Password?</string>
+    <string name="txtview_or">OR</string>
+    <string name="btn_create_new_account">Create new account</string>
 </resources>
