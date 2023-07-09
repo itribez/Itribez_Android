@@ -180,7 +180,7 @@
             android:layout_height="55dp"
             android:layout_gravity="center"
             android:layout_marginEnd="9dp"
-            android:padding="7dp"
+            android:padding="2dp"
             android:src="@drawable/send_chat" />
     </LinearLayout>
 

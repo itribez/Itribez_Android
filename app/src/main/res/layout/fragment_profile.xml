@@ -6,19 +6,17 @@
     tools:context=".Fragments.ProfileFragment">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:id="@+id/app_bar_layout_profile"
-        >
+        android:background="@android:color/white">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/profile_toolbar"
-            android:layout_height="50dp"
             android:layout_width="match_parent"
-            android:layout_marginLeft="6dp"
+            android:layout_height="50dp"
             android:layout_alignParentStart="true"
-            >
+            android:layout_marginLeft="6dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -28,25 +26,23 @@
                     android:id="@+id/profile_toolbar_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="5dp"
                     android:maxLines="1"
                     android:text="username"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="5dp"
-                    android:layout_centerVertical="true"
-                    />
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/options_view"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/options"
-                    android:layout_marginEnd="2dp"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"
-                    />
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="2dp"
+                    android:src="@drawable/options" />
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -76,8 +72,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_marginStart="10dp"
-                    android:src="@drawable/profile">
-                </de.hdodenhof.circleimageview.CircleImageView>
+                    android:src="@drawable/profile"></de.hdodenhof.circleimageview.CircleImageView>
 
                 <LinearLayout
                     android:id="@+id/edit_profile_vertical"
@@ -175,13 +170,13 @@
                         android:id="@+id/edit_profile_Button"
                         android:layout_width="150dp"
                         android:layout_height="35dp"
-                        android:layout_marginLeft="7dp"
                         android:layout_gravity="center"
+                        android:layout_marginLeft="7dp"
                         android:layout_marginTop="5dp"
                         android:background="@drawable/round_btn"
                         android:text="Edit Profile"
-                        android:textStyle="bold"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -223,25 +218,22 @@
                 android:textStyle="normal" />
 
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/button_black_background"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="5dp"
-                >
+                android:background="@drawable/button_black_background"
+                android:orientation="horizontal">
 
                 <ImageButton
+                    android:id="@+id/postGrid"
+                    style="?android:buttonBarButtonStyle"
                     android:layout_width="1dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/grid"
                     android:layout_weight="1"
-                    style="?android:buttonBarButtonStyle"
-                    android:id="@+id/postGrid"
-                    />
+                    android:src="@drawable/grid" />
 
                 <ImageButton
                     android:id="@+id/images_save_btn"
@@ -273,15 +265,13 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_profile"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
+                android:layout_height="match_parent" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_saved_pic"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"
-                />
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 

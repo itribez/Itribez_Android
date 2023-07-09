@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.itribez_android.Adapters.PostAdapter
@@ -16,7 +18,6 @@ class HomeFragment : Fragment() {
     lateinit var recyclerView: RecyclerView
     var arrayList = ArrayList<DataClassPosts>()
     lateinit var recycleradapter: PostAdapter
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -39,7 +40,6 @@ class HomeFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         arrayList.add(DataClassPosts(R.drawable.landscape,"Caption cool","hey there!","Ayushi Patel"))
         arrayList.add(DataClassPosts(R.drawable.landscape,"Summers caption","hey there!","Indu Pandey"))
         arrayList.add(DataClassPosts(R.drawable.landscape,"Travel caption","hey there!","Dhrumil Desai"))
@@ -48,6 +48,5 @@ class HomeFragment : Fragment() {
         arrayList.add(DataClassPosts(R.drawable.landscape,"family caption","hey there!","Sinthuvamasan"))
         arrayList.add(DataClassPosts(R.drawable.landscape,"cation pet","hey there!","Saumya Maurya"))
         arrayList.add(DataClassPosts(R.drawable.landscape,"food caption","hey there!","Charvi Parhwak"))
-
     }
 }
