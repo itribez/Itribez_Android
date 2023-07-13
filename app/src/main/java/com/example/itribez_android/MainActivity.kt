@@ -5,8 +5,8 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.example.itribez_android.Fragments.HomeFragment
 import com.example.itribez_android.Fragments.ProfileFragment
-import com.example.itribez_android.fragments.MessagesFragment
-import com.example.itribez_android.fragments.NotificationFragment
+import com.example.itribez_android.Fragments.beforepost
+import com.example.itribez_android.Fragments.NotificationFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.create -> {
-                    loadFragment(MessagesFragment())
+                    loadFragment(beforepost())
                     true
                 }
 
