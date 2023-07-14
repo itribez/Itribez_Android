@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.bumptech.glide.annotation.GlideModule
 
 class beforepost : Fragment() {
     private val REQUEST_PERMISSIONS_CODE = 123
@@ -60,10 +62,11 @@ class beforepost : Fragment() {
             if (fragment != null) {
                 val fragmentManager = requireActivity().supportFragmentManager
                 fragmentManager.beginTransaction()
-                    .add(R.id.placeHolder, fragment)
+                    .replace(R.id.placeHolder, fragment)
                     .addToBackStack(null)
                     .commit()
             }
+            parentFragmentManager.beginTransaction().remove(this).commit()
             // Handle add media button click
         }
 
@@ -134,6 +137,7 @@ class beforepost : Fragment() {
                 val selectedImageUri = images[position]
                 // Handle the click event for the selected image URI
                 showSelectedImage(selectedImageUri)
+                Log.d("CreatePostFragment", "Tag: $selectedImageUri")
             }
     }
 
