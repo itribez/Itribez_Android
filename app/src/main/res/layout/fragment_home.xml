@@ -38,7 +38,6 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
                     android:src="@drawable/send_icon" />
-
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -53,7 +52,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_home"

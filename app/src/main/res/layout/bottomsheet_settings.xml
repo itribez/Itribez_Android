@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/grey"
+    app:cardCornerRadius="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp">
+
+        <TextView
+            android:id="@+id/txtViewSettings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Settings"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtViewPrivacySecurity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:drawableStart="@drawable/privacy_security"
+            android:drawablePadding="10dp"
+            android:text="Privacy &amp; Security"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtViewSettings" />
+
+        <TextView
+            android:id="@+id/txtViewCommunityGuidelines"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:drawableStart="@drawable/community_guidelines"
+            android:drawablePadding="10dp"
+            android:text="Community Guidelines"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@id/txtViewPrivacySecurity"
+            app:layout_constraintStart_toStartOf="@id/txtViewPrivacySecurity"
+            app:layout_constraintTop_toBottomOf="@id/txtViewPrivacySecurity" />
+
+        <TextView
+            android:id="@+id/txtViewNotificationSetting"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:drawableStart="@drawable/notification"
+            android:drawablePadding="10dp"
+            android:text="Notification"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@id/txtViewCommunityGuidelines"
+            app:layout_constraintStart_toStartOf="@id/txtViewCommunityGuidelines"
+            app:layout_constraintTop_toBottomOf="@id/txtViewCommunityGuidelines" />
+
+        <TextView
+            android:id="@+id/txtViewSoundVibration"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:drawableStart="@drawable/sound"
+            android:drawablePadding="10dp"
+            android:text="Sounds &amp; Vibration"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@id/txtViewNotificationSetting"
+            app:layout_constraintStart_toStartOf="@id/txtViewNotificationSetting"
+            app:layout_constraintTop_toBottomOf="@id/txtViewNotificationSetting" />
+
+        <TextView
+            android:id="@+id/txtViewGeneral"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:drawableStart="@drawable/setting"
+            android:drawablePadding="10dp"
+            android:text="General"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@id/txtViewSoundVibration"
+            app:layout_constraintStart_toStartOf="@id/txtViewSoundVibration"
+            app:layout_constraintTop_toBottomOf="@id/txtViewSoundVibration" />
+
+
+        <TextView
+            android:id="@+id/txtViewHelpSupport"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:drawableStart="@drawable/help"
+            android:drawablePadding="10dp"
+            android:text="Help &amp; Support"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@id/txtViewGeneral"
+            app:layout_constraintStart_toStartOf="@id/txtViewGeneral"
+            app:layout_constraintTop_toBottomOf="@id/txtViewGeneral" />
+
+        <TextView
+            android:id="@+id/txtViewAbout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:drawableStart="@drawable/about"
+            android:drawablePadding="10dp"
+            android:text="About"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/txtViewHelpSupport"
+            app:layout_constraintStart_toStartOf="@id/txtViewHelpSupport"
+            app:layout_constraintTop_toBottomOf="@id/txtViewHelpSupport" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
