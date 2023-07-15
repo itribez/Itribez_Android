@@ -164,7 +164,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:background="@drawable/bg_btn_login"
-        android:text="Sign In"
+        android:text="Sign Up"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="20sp"

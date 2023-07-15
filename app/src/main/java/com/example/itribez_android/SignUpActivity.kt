@@ -2,12 +2,13 @@ package com.example.itribez_android
 
 import android.content.ContentValues
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 
@@ -31,7 +32,7 @@ class SignUpActivity : AppCompatActivity() {
         txtViewSignIn = findViewById(R.id.txtViewSignIn)
         firebaseAuth = FirebaseAuth.getInstance()
         txtViewSignIn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
         btnSignUp.setOnClickListener {
@@ -40,12 +41,12 @@ class SignUpActivity : AppCompatActivity() {
             val email = editTextSignUpEmail.text.toString()
             val pass = editTextSignUpPassword.text.toString()
 
-            if (email.isNotEmpty() && pass.isNotEmpty() && firstname.isNotEmpty() && lastname.isNotEmpty()) {
+            if(email.isNotEmpty() && pass.isNotEmpty() && firstname.isNotEmpty() && lastname.isNotEmpty()) {
                 firebaseAuth.createUserWithEmailAndPassword(email, pass)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
                             Log.d(ContentValues.TAG, "createUserWithEmail:success")
-                            val intent = Intent(this, LoginActivity::class.java)
+                            val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)
                         } else {
                             Log.w(ContentValues.TAG, "createUserWithEmail:failure", task.exception)
