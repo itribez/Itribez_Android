@@ -14,6 +14,7 @@ class ProfileFragment : Fragment() {
     private lateinit var profileId: String
     lateinit var setting:ImageView
     var postList:List<Post>?=null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
