@@ -18,18 +18,18 @@ import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.GridView
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.bumptech.glide.annotation.GlideModule
 
-class beforepost : Fragment() {
+class AddMediaToPostFragment : Fragment() {
+
     private val REQUEST_PERMISSIONS_CODE = 123
     private lateinit var gridView: GridView
     private lateinit var adapter: ImageAdapter
-    private var selectedImageUri: Uri? = Uri.EMPTY
-
+    private var selectedImageUri: Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,50 +40,17 @@ class beforepost : Fragment() {
         gridView = view.findViewById(R.id.galleryGridView)
 
         val addMediaButton: Button = view.findViewById(R.id.addmedia)
-//        addMediaButton.setOnClickListener {
-//
-////            val fragment = createpost()
-////            val bundle = Bundle()
-////            bundle.putString("selectedImageUri", selectedImageUri.toString())
-////            fragment.arguments = bundle
-////
-////            val fragmentManager = requireActivity().supportFragmentManager
-////            val fragmentTransaction = fragmentManager.beginTransaction()
-////            fragmentTransaction.replace(R.id.placeHolder, fragment)
-////            fragmentTransaction.addToBackStack(null)
-////            fragmentTransaction.commit()
-//
-//            val fragment = createpost()
-//            val bundle = Bundle().apply {
-//                putString("selectedImageUri", selectedImageUri.toString())
-//            }
-//            fragment.arguments = bundle
-//
-//            if (fragment != null) {
-//                val fragmentManager = requireActivity().supportFragmentManager
-//                fragmentManager.beginTransaction()
-//                    .replace(R.id.placeHolder, fragment)
-//                    .addToBackStack(null)
-//                    .commit()
-//            }
         addMediaButton.setOnClickListener {
-            val fragment = createpost()
-            val bundle = Bundle()
-//            bundle.putString("selectedImageUri", selectedImageUri.toString())
-//            fragment.arguments = bundle
-
-            if (fragment != null) {
-                val fragmentManager = requireActivity().supportFragmentManager
-                fragmentManager.beginTransaction()
-                    .replace(R.id.placeHolder, fragment)
+            if (selectedImageUri != null) {
+                val createPostFragment = CreatePostFragment.newInstance(selectedImageUri.toString())
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.placeHolder, createPostFragment)
                     .addToBackStack(null)
                     .commit()
+            } else {
+                Toast.makeText(requireContext(), "Please select an image", Toast.LENGTH_SHORT).show()
             }
-
-            parentFragmentManager.beginTransaction().remove(this).commit()
-            // Handle add media button click
         }
-
 
         return view
     }
@@ -148,10 +115,9 @@ class beforepost : Fragment() {
 
         gridView.onItemClickListener =
             AdapterView.OnItemClickListener { _, _, position, _ ->
-                val selectedImageUri = images[position]
-                // Handle the click event for the selected image URI
+                selectedImageUri = images[position]
                 showSelectedImage(selectedImageUri)
-                Log.d("CreatePostFragment", "Tag: $selectedImageUri")
+                Log.d("BeforePostFragment", "Selected Image URI: $selectedImageUri")
             }
     }
 
@@ -187,18 +153,25 @@ class beforepost : Fragment() {
                 .load(imageUri)
                 .into(imageView)
 
-            val roundedCornerDrawable = ContextCompat.getDrawable(context, R.drawable.gridview_background)
+            val roundedCornerDrawable =
+                ContextCompat.getDrawable(context, R.drawable.gridview_background)
             imageView.background = roundedCornerDrawable
 
             return imageView
         }
     }
-    private fun showSelectedImage(uri: Uri) {
-        // Display the selected image in an ImageView
-        val imageView: ImageView = requireView().findViewById(R.id.imageView)
-        Glide.with(requireContext())
-            .load(uri)
-            .into(imageView)
-    }
 
+    private fun showSelectedImage(uri: Uri?) {
+        if (uri != null) {
+            val imageView: ImageView = requireView().findViewById(R.id.imageView)
+            Glide.with(requireContext())
+                .load(uri)
+                .into(imageView)
+        } else {
+            Toast.makeText(requireContext(), "Sorry Image couldnt be selected", Toast.LENGTH_SHORT).show()
+
+            // Handle the case when selectedImageUri is null
+            // For example, display a placeholder image or show an error message
+        }
+    }
 }
