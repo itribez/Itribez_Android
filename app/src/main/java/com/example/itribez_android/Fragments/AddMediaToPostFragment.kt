@@ -25,7 +25,6 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 
 class AddMediaToPostFragment : Fragment() {
-
     private val REQUEST_PERMISSIONS_CODE = 123
     private lateinit var gridView: GridView
     private lateinit var adapter: ImageAdapter
@@ -36,20 +35,20 @@ class AddMediaToPostFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_beforepost, container, false)
-
         gridView = view.findViewById(R.id.galleryGridView)
-
         val addMediaButton: Button = view.findViewById(R.id.addmedia)
+
         addMediaButton.setOnClickListener {
-            if (selectedImageUri != null) {
-                val createPostFragment = CreatePostFragment.newInstance(selectedImageUri.toString())
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.placeHolder, createPostFragment)
-                    .addToBackStack(null)
-                    .commit()
-            } else {
-                Toast.makeText(requireContext(), "Please select an image", Toast.LENGTH_SHORT).show()
+            val fragment = CreatePostFragment()
+            val bundle = Bundle().apply {
+                putParcelable("selectedImageUri", selectedImageUri)
             }
+            fragment.arguments = bundle
+
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.placeHolder, fragment)
+                .addToBackStack(null)
+                .commit()
         }
 
         return view
@@ -64,6 +63,7 @@ class AddMediaToPostFragment : Fragment() {
             requestPermissions()
         }
     }
+    
 
     private fun checkPermissions(): Boolean {
         val readStoragePermission = ContextCompat.checkSelfPermission(
@@ -115,9 +115,9 @@ class AddMediaToPostFragment : Fragment() {
 
         gridView.onItemClickListener =
             AdapterView.OnItemClickListener { _, _, position, _ ->
-                selectedImageUri = images[position]
+                val selectedImageUri = images[position]
+                // Handle the click event for the selected image URI
                 showSelectedImage(selectedImageUri)
-                Log.d("BeforePostFragment", "Selected Image URI: $selectedImageUri")
             }
     }
 
@@ -153,25 +153,17 @@ class AddMediaToPostFragment : Fragment() {
                 .load(imageUri)
                 .into(imageView)
 
-            val roundedCornerDrawable =
-                ContextCompat.getDrawable(context, R.drawable.gridview_background)
+            val roundedCornerDrawable = ContextCompat.getDrawable(context, R.drawable.gridview_background)
             imageView.background = roundedCornerDrawable
 
             return imageView
         }
     }
-
-    private fun showSelectedImage(uri: Uri?) {
-        if (uri != null) {
-            val imageView: ImageView = requireView().findViewById(R.id.imageView)
-            Glide.with(requireContext())
-                .load(uri)
-                .into(imageView)
-        } else {
-            Toast.makeText(requireContext(), "Sorry Image couldnt be selected", Toast.LENGTH_SHORT).show()
-
-            // Handle the case when selectedImageUri is null
-            // For example, display a placeholder image or show an error message
-        }
+    private fun showSelectedImage(uri: Uri) {
+        // Display the selected image in an ImageView
+        val imageView: ImageView = requireView().findViewById(R.id.imageView)
+        Glide.with(requireContext())
+            .load(uri)
+            .into(imageView)
     }
 }
