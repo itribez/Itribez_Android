@@ -12,6 +12,7 @@ import com.example.itribez_android.Fragments.HomeFragment
 import com.example.itribez_android.Fragments.ProfileFragment
 import com.example.itribez_android.Fragments.beforepost
 import com.example.itribez_android.Fragments.NotificationFragment
+import com.example.itribez_android.Fragments.createpost
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -40,7 +41,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.create -> {
-                    loadFragment(beforepost())
+                    loadFragment(createpost())
                     true
                 }
 

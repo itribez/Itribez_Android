@@ -75,21 +75,21 @@ class createpost : Fragment() {
         imageView = view.findViewById(R.id.img)
 
         // Retrieve the selected image URI from arguments
-//        val selectedImageUriString = arguments?.getString("selectedImageUri").toString()
-//        val uri = Uri.fromFile(File(selectedImageUriString))
+
+        imageView.setOnClickListener {
+            val beforePostFragment = beforepost()
+
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.placeHolder, beforePostFragment)
+                .addToBackStack(null)
+                .commit()
+        }
+
+//        val selectedImageUriString = requireArguments()?.getString("selectedImageUri")
+//        val file = File(selectedImageUriString)
+//        val bitmap = BitmapFactory.decodeFile(file.absolutePath)
+//        imageView.setImageBitmap(bitmap)
 //        Log.d("uri is ", "Tag: $selectedImageUriString")
-//        // Load the image using Glide or any other image loading library
-//        Glide.with(this)
-//            .load(uri)
-//            .into(imageView)
-
-
-        val selectedImageUriString = arguments?.getString("selectedImageUri")
-        val file = File(selectedImageUriString)
-        Log.d("uri is ", "Tag: $selectedImageUriString")
-        val bitmap = BitmapFactory.decodeFile(file.absolutePath)
-        imageView.setImageBitmap(bitmap)
-
 
         // Find the "Post" button
         val postButton: Button = view.findViewById(R.id.postbutton)
@@ -107,7 +107,21 @@ class createpost : Fragment() {
             Log.d("CreatePostFragment", "Tag: $tag")
         }
 
+//        val imageView: ImageView = view.findViewById(R.id.img)
+
+
+//        val selectedImageUriString = arguments?.getString("selectedImageUri").toString()
+//        val uri = Uri.fromFile(File(selectedImageUriString))
+//        Log.d("uri is ", "Tag: $selectedImageUriString")
+//        // Load the image using Glide or any other image loading library
+//        Glide.with(this)
+//
+//            .load(uri)
+//            .into(imageView)
+
         return view
     }
 
 }
+
+

@@ -40,24 +40,37 @@ class beforepost : Fragment() {
         gridView = view.findViewById(R.id.galleryGridView)
 
         val addMediaButton: Button = view.findViewById(R.id.addmedia)
-        addMediaButton.setOnClickListener {
-
+//        addMediaButton.setOnClickListener {
+//
+////            val fragment = createpost()
+////            val bundle = Bundle()
+////            bundle.putString("selectedImageUri", selectedImageUri.toString())
+////            fragment.arguments = bundle
+////
+////            val fragmentManager = requireActivity().supportFragmentManager
+////            val fragmentTransaction = fragmentManager.beginTransaction()
+////            fragmentTransaction.replace(R.id.placeHolder, fragment)
+////            fragmentTransaction.addToBackStack(null)
+////            fragmentTransaction.commit()
+//
 //            val fragment = createpost()
-//            val bundle = Bundle()
-//            bundle.putString("selectedImageUri", selectedImageUri.toString())
+//            val bundle = Bundle().apply {
+//                putString("selectedImageUri", selectedImageUri.toString())
+//            }
 //            fragment.arguments = bundle
 //
-//            val fragmentManager = requireActivity().supportFragmentManager
-//            val fragmentTransaction = fragmentManager.beginTransaction()
-//            fragmentTransaction.replace(R.id.placeHolder, fragment)
-//            fragmentTransaction.addToBackStack(null)
-//            fragmentTransaction.commit()
-
+//            if (fragment != null) {
+//                val fragmentManager = requireActivity().supportFragmentManager
+//                fragmentManager.beginTransaction()
+//                    .replace(R.id.placeHolder, fragment)
+//                    .addToBackStack(null)
+//                    .commit()
+//            }
+        addMediaButton.setOnClickListener {
             val fragment = createpost()
-            val bundle = Bundle().apply {
-                putString("selectedImageUri", selectedImageUri.toString())
-            }
-            fragment.arguments = bundle
+            val bundle = Bundle()
+//            bundle.putString("selectedImageUri", selectedImageUri.toString())
+//            fragment.arguments = bundle
 
             if (fragment != null) {
                 val fragmentManager = requireActivity().supportFragmentManager
@@ -66,6 +79,7 @@ class beforepost : Fragment() {
                     .addToBackStack(null)
                     .commit()
             }
+
             parentFragmentManager.beginTransaction().remove(this).commit()
             // Handle add media button click
         }
