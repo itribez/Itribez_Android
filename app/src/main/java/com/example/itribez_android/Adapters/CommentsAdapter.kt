@@ -9,7 +9,6 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.itribez_android.R
 import com.example.itribez_android.dataclasses.DataClassComments
-import com.example.itribez_android.dataclasses.DataClassMessages
 
 class CommentsAdapter(var list: ArrayList<DataClassComments>) :
     RecyclerView.Adapter<CommentsAdapter.ViewHolder>() {

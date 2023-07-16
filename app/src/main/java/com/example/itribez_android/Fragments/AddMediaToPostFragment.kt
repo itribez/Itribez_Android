@@ -63,7 +63,7 @@ class AddMediaToPostFragment : Fragment() {
             requestPermissions()
         }
     }
-    
+
 
     private fun checkPermissions(): Boolean {
         val readStoragePermission = ContextCompat.checkSelfPermission(
