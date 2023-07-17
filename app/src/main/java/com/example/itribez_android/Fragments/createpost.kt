@@ -15,6 +15,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.example.itribez_android.MainActivity
 import java.io.File
 import kotlin.math.log
 
@@ -61,6 +62,7 @@ class createpost : Fragment() {
     private lateinit var locationEditText: EditText
     private lateinit var tagEditText: EditText
     private lateinit var imageView: ImageView
+    private lateinit var imageView1: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,6 +75,7 @@ class createpost : Fragment() {
         locationEditText = view.findViewById(R.id.location)
         tagEditText = view.findViewById(R.id.Tag)
         imageView = view.findViewById(R.id.img)
+        imageView1 = view.findViewById(R.id.back)
 
         // Retrieve the selected image URI from arguments
 
@@ -107,6 +110,15 @@ class createpost : Fragment() {
             Log.d("CreatePostFragment", "Tag: $tag")
         }
 
+        imageView1.setOnClickListener {
+            // Replace this with the Fragment you want to navigate to
+
+
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.placeHolder, HomeFragment())
+                .addToBackStack(null)
+                .commit()
+        }
 //        val imageView: ImageView = view.findViewById(R.id.img)
 
 

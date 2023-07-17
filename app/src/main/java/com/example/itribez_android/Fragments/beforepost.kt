@@ -1,11 +1,13 @@
 package com.example.itribez_android.Fragments
 
-
+import android.content.Intent
 import com.example.itribez_android.R
 import android.Manifest
+import android.app.Activity
 import android.content.ContentUris
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -17,7 +19,9 @@ import android.widget.AdapterView
 import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.GridView
+import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -29,6 +33,11 @@ class beforepost : Fragment() {
     private lateinit var gridView: GridView
     private lateinit var adapter: ImageAdapter
     private var selectedImageUri: Uri? = Uri.EMPTY
+    private lateinit var imageView: ImageView
+    private lateinit var ImageButton: ImageButton
+    private val REQUEST_IMAGE_CAPTURE = 1
+    private val CAMERA_PERMISSION_REQUEST_CODE = 123
+
 
 
     override fun onCreateView(
@@ -38,7 +47,22 @@ class beforepost : Fragment() {
         val view = inflater.inflate(R.layout.fragment_beforepost, container, false)
 
         gridView = view.findViewById(R.id.galleryGridView)
+        imageView = view.findViewById(R.id.back)
 
+        val cameraButton: ImageButton = view.findViewById(R.id.camera)
+        cameraButton.setOnClickListener {
+            openCamera()
+        }
+
+        imageView.setOnClickListener {
+            // Replace this with the Fragment you want to navigate to
+
+
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.placeHolder, createpost())
+                .addToBackStack(null)
+                .commit()
+        }
         val addMediaButton: Button = view.findViewById(R.id.addmedia)
 //        addMediaButton.setOnClickListener {
 //
@@ -87,6 +111,45 @@ class beforepost : Fragment() {
 
         return view
     }
+
+    private fun openCamera() {
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        if (takePictureIntent.resolveActivity(requireActivity().packageManager) != null) {
+            if (ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.CAMERA
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                // Permission granted, open the camera
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+            } else {
+                // Permission not granted, request it
+                ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    arrayOf(Manifest.permission.CAMERA),
+                    CAMERA_PERMISSION_REQUEST_CODE
+                )
+            }
+        } else {
+            // Camera app not found
+            Toast.makeText(requireContext(), "Camera app not found", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+//    override fun onRequestPermissionsResult(
+//        requestCode: Int,
+//        permissions: Array<out String>,
+//        grantResults: IntArray
+//    ) {
+//        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
+//            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                openCamera()
+//            } else {
+//                // Handle permission denied case
+//                // You can show a message or take appropriate action
+//            }
+//        }
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -155,6 +218,7 @@ class beforepost : Fragment() {
             }
     }
 
+
     private class ImageAdapter(private val context: Context, private val images: List<Uri>) :
         BaseAdapter() {
 
@@ -200,5 +264,7 @@ class beforepost : Fragment() {
             .load(uri)
             .into(imageView)
     }
+
+
 
 }
