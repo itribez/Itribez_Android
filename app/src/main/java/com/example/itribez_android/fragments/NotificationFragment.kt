@@ -40,23 +40,133 @@ class NotificationFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        arrayList.add(DataClassNotification(R.drawable.profile_img_temp,"Ayushi Patel","Started following you","follow"))
-        arrayList.add(DataClassNotification(R.drawable.profile_img_temp,"Indu Pandey","Started following you","follow"))
-        arrayList.add(DataClassNotification(R.drawable.profile_img_temp,"Dhrumil Desai","Started following you","follow"))
-        arrayList.add(DataClassNotification(R.drawable.profile_img_temp,"Vrunda Patel","Started following you","follow"))
-        arrayList.add(DataClassNotification(R.drawable.profile_img_temp,"Sinthuvamasan","Started following you","follow"))
-        arrayList.add(DataClassNotification(R.drawable.profile_img_temp,"Charvi Parhwak","Started following you","follow"))
-        arrayList.add(DataClassNotification(R.drawable.profile_img_temp,"Brijal Patel","Started following you","follow"))
-        arrayList.add(DataClassNotification(R.drawable.profile_img_temp,"Saumya Maurya","Started following you","follow"))
-        arrayList.add(DataClassNotification(R.drawable.profile_img_temp,"Ayushi Patel","Started following you","follow"))
-        arrayList.add(DataClassNotification(R.drawable.profile_img_temp,"Indu Pandey","Started following you","follow"))
-        arrayList.add(DataClassNotification(R.drawable.profile_img_temp,"Dhrumil Desai","Started following you","follow"))
-        arrayList.add(DataClassNotification(R.drawable.profile_img_temp,"Vrunda Patel","Started following you","follow"))
-        arrayList.add(DataClassNotification(R.drawable.profile_img_temp,"Sinthuvamasan","Started following you","follow"))
-        arrayList.add(DataClassNotification(R.drawable.profile_img_temp,"Charvi Parhwak","Started following you","follow"))
-        arrayList.add(DataClassNotification(R.drawable.profile_img_temp,"Brijal Patel","Started following you","follow"))
-        arrayList.add(DataClassNotification(R.drawable.profile_img_temp,"Saumya Maurya","Started following you","follow"))
-
-
+        arrayList.add(
+            DataClassNotification(
+                R.drawable.profile_img_temp,
+                "Ayushi Patel",
+                "Started following you",
+                "follow"
+            )
+        )
+        arrayList.add(
+            DataClassNotification(
+                R.drawable.profile_img_temp,
+                "Indu Pandey",
+                "Started following you",
+                "follow"
+            )
+        )
+        arrayList.add(
+            DataClassNotification(
+                R.drawable.profile_img_temp,
+                "Dhrumil Desai",
+                "Started following you",
+                "follow"
+            )
+        )
+        arrayList.add(
+            DataClassNotification(
+                R.drawable.profile_img_temp,
+                "Vrunda Patel",
+                "Started following you",
+                "follow"
+            )
+        )
+        arrayList.add(
+            DataClassNotification(
+                R.drawable.profile_img_temp,
+                "Sinthuvamasan",
+                "Started following you",
+                "follow"
+            )
+        )
+        arrayList.add(
+            DataClassNotification(
+                R.drawable.profile_img_temp,
+                "Charvi Parhwak",
+                "Started following you",
+                "follow"
+            )
+        )
+        arrayList.add(
+            DataClassNotification(
+                R.drawable.profile_img_temp,
+                "Brijal Patel",
+                "Started following you",
+                "follow"
+            )
+        )
+        arrayList.add(
+            DataClassNotification(
+                R.drawable.profile_img_temp,
+                "Saumya Maurya",
+                "Started following you",
+                "follow"
+            )
+        )
+        arrayList.add(
+            DataClassNotification(
+                R.drawable.profile_img_temp,
+                "Ayushi Patel",
+                "Started following you",
+                "follow"
+            )
+        )
+        arrayList.add(
+            DataClassNotification(
+                R.drawable.profile_img_temp,
+                "Indu Pandey",
+                "Started following you",
+                "follow"
+            )
+        )
+        arrayList.add(
+            DataClassNotification(
+                R.drawable.profile_img_temp,
+                "Dhrumil Desai",
+                "Started following you",
+                "follow"
+            )
+        )
+        arrayList.add(
+            DataClassNotification(
+                R.drawable.profile_img_temp,
+                "Vrunda Patel",
+                "Started following you",
+                "follow"
+            )
+        )
+        arrayList.add(
+            DataClassNotification(
+                R.drawable.profile_img_temp,
+                "Sinthuvamasan",
+                "Started following you",
+                "follow"
+            )
+        )
+        arrayList.add(
+            DataClassNotification(
+                R.drawable.profile_img_temp,
+                "Charvi Parhwak",
+                "Started following you",
+                "follow"
+            )
+        )
+        arrayList.add(
+            DataClassNotification(
+                R.drawable.profile_img_temp,
+                "Brijal Patel",
+                "Started following you",
+                "follow"
+            )
+        )
+        arrayList.add(
+            DataClassNotification(
+                R.drawable.profile_img_temp,
+                "Saumya Maurya",
+                "Started following you",
+                "follow"
+            )
+        )
     }
-    }
+}

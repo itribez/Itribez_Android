@@ -5,13 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.itribez_android.Adapters.CommentsAdapter
 import com.example.itribez_android.Adapters.PostAdapter
 import com.example.itribez_android.R
+import com.example.itribez_android.dataclasses.DataClassComments
 import com.example.itribez_android.dataclasses.DataClassPosts
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class HomeFragment : Fragment() {
 
@@ -34,10 +38,31 @@ class HomeFragment : Fragment() {
         recyclerView.apply {
             layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
             adapter = recycleradapter
+            recycleradapter.onItemClick ={
+                val dialog =BottomSheetDialog(context)
+                val viewBottomSheet = layoutInflater.inflate(R.layout.bottomsheet_comment,null)
+                dialog.setCancelable(true)
+                dialog.setCanceledOnTouchOutside(true)
+                dialog.setContentView(viewBottomSheet)
+                val recyclerViewC = viewBottomSheet.findViewById<RecyclerView>(R.id.recyclerViewComments)
+                recyclerViewC.apply {
+                    val comment = CommentsAdapter(ArrayList<DataClassComments>().apply {
+                        add(DataClassComments(R.drawable.profile_img_temp,"Indu Pandey","Nice Location"))
+                        add(DataClassComments(R.drawable.profile_img_temp,"Ayushi Patel","Cool"))
+                        add(DataClassComments(R.drawable.profile_img_temp,"Saumya maurya","Nice Location"))
+                        add(DataClassComments(R.drawable.profile_img_temp,"Vrunda Patel","cool"))
+                        add(DataClassComments(R.drawable.profile_img_temp,"Dhrumil desai","Nice Location"))
+                        add(DataClassComments(R.drawable.profile_img_temp,"Sinthu Vamasan","Cool"))
+                        add(DataClassComments(R.drawable.profile_img_temp,"Charvi Parhwak","Nice Location"))
+                        add(DataClassComments(R.drawable.profile_img_temp,"Brijal Patel","Cool"))
+                    })
+                    adapter = comment
+                }
+                dialog.show()
+            }
             return view
         }
     }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         arrayList.add(DataClassPosts(R.drawable.landscape,"Caption cool","hey there!","Ayushi Patel"))
@@ -48,5 +73,6 @@ class HomeFragment : Fragment() {
         arrayList.add(DataClassPosts(R.drawable.landscape,"family caption","hey there!","Sinthuvamasan"))
         arrayList.add(DataClassPosts(R.drawable.landscape,"cation pet","hey there!","Saumya Maurya"))
         arrayList.add(DataClassPosts(R.drawable.landscape,"food caption","hey there!","Charvi Parhwak"))
+
     }
 }

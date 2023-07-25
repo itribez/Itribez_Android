@@ -26,9 +26,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.bumptech.glide.annotation.GlideModule
 
-class beforepost : Fragment() {
+class AddMediaToPostFragment : Fragment() {
     private val REQUEST_PERMISSIONS_CODE = 123
     private lateinit var gridView: GridView
     private lateinit var adapter: ImageAdapter
@@ -39,13 +38,11 @@ class beforepost : Fragment() {
     private val CAMERA_PERMISSION_REQUEST_CODE = 123
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_beforepost, container, false)
-
         gridView = view.findViewById(R.id.galleryGridView)
         imageView = view.findViewById(R.id.back)
 
@@ -63,51 +60,21 @@ class beforepost : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
+
         val addMediaButton: Button = view.findViewById(R.id.addmedia)
-//        addMediaButton.setOnClickListener {
-//
-////            val fragment = createpost()
-////            val bundle = Bundle()
-////            bundle.putString("selectedImageUri", selectedImageUri.toString())
-////            fragment.arguments = bundle
-////
-////            val fragmentManager = requireActivity().supportFragmentManager
-////            val fragmentTransaction = fragmentManager.beginTransaction()
-////            fragmentTransaction.replace(R.id.placeHolder, fragment)
-////            fragmentTransaction.addToBackStack(null)
-////            fragmentTransaction.commit()
-//
-//            val fragment = createpost()
-//            val bundle = Bundle().apply {
-//                putString("selectedImageUri", selectedImageUri.toString())
-//            }
-//            fragment.arguments = bundle
-//
-//            if (fragment != null) {
-//                val fragmentManager = requireActivity().supportFragmentManager
-//                fragmentManager.beginTransaction()
-//                    .replace(R.id.placeHolder, fragment)
-//                    .addToBackStack(null)
-//                    .commit()
-//            }
+
         addMediaButton.setOnClickListener {
-            val fragment = createpost()
-            val bundle = Bundle()
-//            bundle.putString("selectedImageUri", selectedImageUri.toString())
-//            fragment.arguments = bundle
-
-            if (fragment != null) {
-                val fragmentManager = requireActivity().supportFragmentManager
-                fragmentManager.beginTransaction()
-                    .replace(R.id.placeHolder, fragment)
-                    .addToBackStack(null)
-                    .commit()
+            val fragment = CreatePostFragment()
+            val bundle = Bundle().apply {
+                putParcelable("selectedImageUri", selectedImageUri)
             }
+            fragment.arguments = bundle
 
-            parentFragmentManager.beginTransaction().remove(this).commit()
-            // Handle add media button click
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.placeHolder, fragment)
+                .addToBackStack(null)
+                .commit()
         }
-
 
         return view
     }
@@ -160,6 +127,7 @@ class beforepost : Fragment() {
             requestPermissions()
         }
     }
+
 
     private fun checkPermissions(): Boolean {
         val readStoragePermission = ContextCompat.checkSelfPermission(
@@ -214,7 +182,6 @@ class beforepost : Fragment() {
                 val selectedImageUri = images[position]
                 // Handle the click event for the selected image URI
                 showSelectedImage(selectedImageUri)
-                Log.d("CreatePostFragment", "Tag: $selectedImageUri")
             }
     }
 
@@ -264,7 +231,6 @@ class beforepost : Fragment() {
             .load(uri)
             .into(imageView)
     }
-
 
 
 }
