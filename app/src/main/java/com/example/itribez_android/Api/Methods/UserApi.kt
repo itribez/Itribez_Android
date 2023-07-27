@@ -12,10 +12,8 @@ import retrofit2.http.POST
 interface UserApi {
     @POST("/user/login")
     suspend fun loginUser(@Body loginRequest: LoginRequest): Response<LoginResponse>
-
     @POST("/user/register")
     suspend fun registerUser(@Body registerRequest: RegisterRequest): Response<RegisterResponse>
-
     companion object {
         fun getApi(): UserApi? {
             return ApiClient.client?.create(UserApi::class.java)

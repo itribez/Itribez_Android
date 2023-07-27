@@ -26,7 +26,6 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 
-
 class LoginActivity : AppCompatActivity() {
     lateinit var editTextEmail: TextInputEditText
     lateinit var editTextPassword: TextInputEditText
@@ -59,22 +58,19 @@ class LoginActivity : AppCompatActivity() {
 
                 is BaseResponse.Success -> {
                     stopLoading()
+                    SessionManager.saveBool(applicationContext,SessionManager.IS_LOGIN, true)
                     processLogin(it.data)
                 }
 
                 is BaseResponse.Error -> {
-                    processError(it.message)
+                    processError(it.msg)
                 }
 
-                else -> {
-                    stopLoading()
-                }
             }
         }
-
         firebaseAuth = FirebaseAuth.getInstance()
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            // .requestIdToken(getString(R.string.default_web_client_id))
+             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
 
@@ -107,36 +103,28 @@ class LoginActivity : AppCompatActivity() {
     private fun processLogin(data: LoginResponse?) {
         showToast("Success:" + data?.token)
         if (!data?.token.isNullOrEmpty()) {
-            // data?.token?.let { SessionManager.saveAuthToken(this, it) }
             navigateToHome()
         }
     }
-
     private fun showToast(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
-
     private fun stopLoading() {
         prgbar.visibility = View.GONE
-
     }
-
     private fun showLoading() {
         prgbar.visibility = View.VISIBLE
     }
-
     private fun navigateToHome() {
         val intent = Intent(this, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
         startActivity(intent)
     }
-
     private fun signInGoogle() {
         val signInIntent = googleSignInClient.signInIntent
         launcher.launch(signInIntent)
     }
-
     private val launcher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -144,7 +132,6 @@ class LoginActivity : AppCompatActivity() {
                 handleResults(task)
             }
         }
-
     private fun handleResults(task: Task<GoogleSignInAccount>) {
         if (task.isSuccessful) {
             val account: GoogleSignInAccount? = task.result
@@ -169,7 +156,6 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
-
     override fun onStart() {
         super.onStart()
         if (firebaseAuth.currentUser != null) {

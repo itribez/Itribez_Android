@@ -7,6 +7,8 @@ import com.example.itribez_android.R
 
 object SessionManager {
 
+    const val IS_LOGIN = "isLogin"
+
     const val USER_TOKEN = "user_token"
 
     /**
@@ -29,17 +31,31 @@ object SessionManager {
         val editor = prefs.edit()
         editor.putString(key, value)
         editor.apply()
-
     }
 
     fun getString(context: Context, key: String): String? {
         val prefs: SharedPreferences =
             context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
-        return prefs.getString(this.USER_TOKEN, null)
+        return prefs.getString(key, null)
     }
 
-    fun clearData(context: Context){
-        val editor = context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE).edit()
+    fun saveBool(context: Context, key: String, value: Boolean) {
+        val prefs: SharedPreferences =
+            context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        editor.putBoolean(key, value)
+        editor.apply()
+
+    }
+    fun getBool(context: Context, key: String): Boolean {
+        val prefs: SharedPreferences =
+            context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
+        return prefs.getBoolean(key, false)
+    }
+    fun clearData(context: Context) {
+        val editor =
+            context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
+                .edit()
         editor.clear()
         editor.apply()
     }
