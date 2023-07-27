@@ -20,7 +20,6 @@ class CreatePostFragment : Fragment() {
     private lateinit var locationEditText: EditText
     private lateinit var tagEditText: EditText
     private lateinit var imageView: ImageView
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
