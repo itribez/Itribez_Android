@@ -1,4 +1,4 @@
-package com.example.itribez_android.fragments
+package com.example.itribez_android.Fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
