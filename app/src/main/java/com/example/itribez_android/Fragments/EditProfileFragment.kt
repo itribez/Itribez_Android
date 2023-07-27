@@ -2,7 +2,9 @@ package com.example.itribez_android.Fragments
 
 import android.app.Activity
 import android.app.Activity.RESULT_OK
+import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
@@ -17,22 +19,28 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Gallery
 import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.Spinner
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
+import android.Manifest
+import android.app.DatePickerDialog
+import android.net.Uri
 import com.example.itribez_android.R
+import java.util.Calendar
 
 class EditProfileFragment : Fragment() {
 
     private lateinit var imageView: ImageView
     private val CAMERA_REQUEST_CODE = 1
     private val GALLERY_REQUEST_CODE = 2
-    private val sharedViewModel: SharedViewModel by activityViewModels()
+    private var selectedOption: Int = -1
 
-    private val genderOptions = arrayOf("Male", "Female", "Other")
-    private lateinit var gender: Spinner
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,121 +48,186 @@ class EditProfileFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_edit_profile, container, false)
         val saveButton: Button = view.findViewById(R.id.btnsave)
         imageView=view.findViewById(R.id.upload_image)
+        val calendarImageView : ImageView = view.findViewById(R.id.calendar)
+
+        calendarImageView.setOnClickListener {
+            openDatePicker()
+        }
+
         saveButton.setOnClickListener {
             val nameEditText: EditText = view.findViewById(R.id.name)
             val usernameEditText : EditText = view.findViewById(R.id.username)
-            val birthdateEditText: EditText = view.findViewById(R.id.birthdate)
-            val gender: Spinner = view.findViewById(R.id.genderspinner)
             val bioEditText: EditText = view.findViewById(R.id.edbio)
             val cityEditText: EditText = view.findViewById(R.id.edcity)
-            val uploadPictureButton : Button = view.findViewById(R.id.btnuploadpic)
-         //   sharedViewModel.setSelectedImage(imageView.Uri)
-
-            uploadPictureButton.setOnClickListener { v->
-                showPopUpMenu(v)
-            }
-
-           // setHasOptionsMenu(true)
-
             val name = nameEditText.text.toString()
             val username = usernameEditText.text.toString()
-            val birthdate = birthdateEditText.text.toString()
             val bio = bioEditText.text.toString()
             val city = cityEditText.text.toString()
+            val imageUri = imageView.tag as String?
 
-            val bundle = Bundle()
-            bundle.putString("fullname",name)
-            bundle.putString("username",username)
-            bundle.putString("bio",bio)
-            val profileFragment = ProfileFragment()
-            profileFragment.arguments = bundle
-            fragmentManager?.beginTransaction()?.replace(R.id.profile_fragment,profileFragment)?.commit()
 
+          val resultData = Bundle().apply {
+              putString("fullname",name)
+              putString("username",username)
+              putString("bio",bio)
+              putString("imageUri",imageUri)
+          }
+
+            parentFragmentManager.setFragmentResult("editProfileData",resultData)
+            parentFragmentManager.popBackStack()
+
+        }
+        val uploadPictureButton : Button = view.findViewById(R.id.btnuploadpic)
+        uploadPictureButton.setOnClickListener {
+            showImageSourceDialog()
         }
 
         return view
     }
 
-    fun showPopUpMenu(view: View){
-        val popupMenu = PopupMenu(requireContext(),view)
-        popupMenu.inflate(R.menu.popup_menu)
-        imageView = view.findViewById(R.id.upload_image)
+    private fun openDatePicker(){
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        popupMenu.setOnMenuItemClickListener {item : MenuItem -> when (item.itemId){
-            R.id.open_camera -> {
-                openCamera()
-                true
+        val datePickerDialog = DatePickerDialog(
+            requireContext(),
+            { _, selectedYear, selectedMonth, selectedDay ->
+                val birthdateEditText: EditText = requireView().findViewById(R.id.birthdate)
+                birthdateEditText.setText("$selectedYear-${selectedMonth + 1}-$selectedDay")
+            },
+            year,
+            month,
+            day
+        )
+        datePickerDialog.show()
+    }
+    private fun showImageSourceDialog() {
+        val options = arrayOf<CharSequence>("Open Camera", "Choose from Gallery")
+
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Select Image Source")
+        builder.setItems(options) { _, item ->
+            selectedOption = item
+            when (item) {
+                0 -> checkCameraPermissionAndOpenCamera()
+                1 -> checkGalleryPermissionAndOpenGallery()
             }
-            R.id.open_gallary ->{
-                openGallery()
-                true
-            }
-            R.id.cancel -> {
-                popupMenu.dismiss()
-                true
-            }
-            else -> false
         }
+        builder.show()
+    }
+
+    private fun checkCameraPermissionAndOpenCamera() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.CAMERA),
+                CAMERA_REQUEST_CODE
+
+            )
+
+        } else {
+            openCamera()
+        }
+    }
+
+    private fun checkGalleryPermissionAndOpenGallery() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                GALLERY_REQUEST_CODE
+            )
+
+        } else{
+            openGallery()
         }
 
-        popupMenu.show()
     }
 
     private fun openCamera() {
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-            takePictureIntent.resolveActivity(requireActivity().packageManager)?.also {
-                startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE)
-            }
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        if (takePictureIntent.resolveActivity(requireActivity().packageManager) != null) {
+            startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE )
         }
     }
 
     private fun openGallery() {
-        Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI).also {
-            startActivityForResult(it, GALLERY_REQUEST_CODE)
-        }
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, GALLERY_REQUEST_CODE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 CAMERA_REQUEST_CODE -> {
-                    val imageUri = data?.data
-                    imageView.setImageURI(imageUri)
-                    sharedViewModel.setSelectedImage(imageUri!!)
-                }
+                    val imageBitmap = data?.extras?.get("data") as Bitmap
+                    imageView.setImageBitmap(imageBitmap)
 
+                    val imageUri = saveImageToGallery(imageBitmap)
+                    imageView.tag = imageUri
+                }
                 GALLERY_REQUEST_CODE -> {
-                    val imageUri = data?.data
-                    imageView.setImageURI(imageUri)
-                    sharedViewModel.setSelectedImage(imageUri!!)
+                    val selectedImageUri = data?.data
+                    Glide.with(this)
+                        .load(selectedImageUri)
+                        .into(imageView)
+
+                    imageView.tag = selectedImageUri.toString()
                 }
             }
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val adapter =
-            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, genderOptions)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        gender.adapter = adapter
-
-        // Handle item selection (optional)
-        gender.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View  ?,
-                position: Int,
-                id: Long
-            ) {
-                val selectedGender = genderOptions[position]
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            CAMERA_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (selectedOption == 0) { // Camera option was selected
+                        openCamera()
+                    }
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Camera permission denied",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
+            GALLERY_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (selectedOption == 1) { // Gallery option was selected
+                        openGallery()
+                    }
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Gallery permission denied",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
+    }
 
+    private fun saveImageToGallery(bitmap: Bitmap): Uri {
+        val resolver = requireContext().contentResolver
+        val imageFileName = "image_${System.currentTimeMillis()}.jpg"
+        val imageUri = MediaStore.Images.Media.insertImage(resolver, bitmap, imageFileName, null)
+        return Uri.parse(imageUri)
     }
 }

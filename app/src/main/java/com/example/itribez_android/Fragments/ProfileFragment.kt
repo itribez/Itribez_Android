@@ -10,6 +10,8 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.example.itribez_android.Fragments.EditProfileFragment
 import com.example.itribez_android.Models.Post
 import com.example.itribez_android.R
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -19,7 +21,7 @@ class ProfileFragment : Fragment() {
     lateinit var setting: ImageView
     var postList:List<Post>?=null
     private lateinit var profileImageView: ImageView
-    private val sharedViewModel: SharedViewModel by activityViewModels()
+
 
 
     override fun onCreateView(
@@ -37,38 +39,37 @@ class ProfileFragment : Fragment() {
             dialog?.setContentView(viewBottomSheet)
             dialog?.show()
 
+            }
             val editProfileBtn: Button = view.findViewById(R.id.edit_profile_Button)
             editProfileBtn.setOnClickListener {
-                val editProfileFragment = EditProfileFragment()
-                editProfileFragment.arguments = Bundle()
-                fragmentManager?.beginTransaction()
-                    ?.replace(R.id.profile_fragment, editProfileFragment)
-                    ?.addToBackStack(null)
-                    ?.commit()
+            val editProfileFragment = EditProfileFragment()
+            editProfileFragment.arguments = Bundle()
+            fragmentManager?.beginTransaction()
+                ?.replace(R.id.placeHolder, editProfileFragment)
+                ?.addToBackStack(null)
+                ?.commit()
+        }
+        parentFragmentManager.setFragmentResultListener("editProfileData",viewLifecycleOwner) { _, result ->
+            val fullname = result.getString("fullname", "")
+            val username = result.getString("username", "")
+            val bio = result.getString("bio", "")
+            val imageUri=result.getString("imageUri")
+
+            val toolbarUsernameTextView: TextView = view.findViewById(R.id.profile_toolbar_username)
+            val profileUsernameTextView: TextView = view.findViewById(R.id.username_in_profile)
+            val profileFullNameTextView: TextView = view.findViewById(R.id.fullname_in_profile)
+            val profileBioTextView: TextView = view.findViewById(R.id.bio_profile)
+            val profileImageView : ImageView= view.findViewById(R.id.profile_image_profile)
+
+            if(!imageUri.isNullOrEmpty()){
+                Glide.with(this).load(imageUri).into(profileImageView)
             }
-
-            val toolbarUserNameTextView : TextView = view.findViewById(R.id.profile_toolbar_username)
-            val profileUserNameTextView :  TextView = view.findViewById(R.id.username_in_profile)
-            val profileFullNameTextView : TextView = view.findViewById(R.id.fullname_in_profile)
-            val profileBioTextView :  TextView = view.findViewById(R.id.bio_profile)
-
-            val args = this.arguments
-            val toolbarUserName = args?.get("username")
-            val profileFullName = args?.get("fullname")
-            val profileUserName = args?.get("username")
-            val profileBio = args?.get("bio")
-
-            toolbarUserNameTextView.text = toolbarUserName.toString()
-            profileUserNameTextView.text = profileUserName.toString()
-            profileFullNameTextView.text = profileFullName.toString()
-            profileBioTextView.text = profileBio.toString()
+            toolbarUsernameTextView.text = username
+            profileUsernameTextView.text = username
+            profileFullNameTextView.text = fullname
+            profileBioTextView.text = bio
 
         }
-
-        profileImageView = view.findViewById(R.id.profile_image_profile)
-        sharedViewModel.selectedImage.observe(viewLifecycleOwner, { imageUri ->
-            profileImageView.setImageURI(imageUri)
-        })
 
         return view
     }
