@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:id="@+id/edit_profile_fragment"
     android:layout_height="match_parent"
     tools:context=".Fragments.EditProfileFragment">
 
@@ -86,6 +87,24 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="Username"
+                android:textSize="16sp"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="3dp"/>
+
+            <EditText
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/chat_edittext"
+                android:textAlignment="center"
+                android:textSize="30sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="Birth Date"
                 android:textSize="16sp"
                 android:layout_marginTop="25dp"
@@ -129,6 +148,42 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:contextClickable="true" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bio"
+                android:textSize="16sp"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="3dp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edbio"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/chat_edittext"
+                android:textAlignment="center"
+                android:textSize="30sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="City"
+                android:textSize="16sp"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="3dp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edcity"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/chat_edittext"
+                android:textAlignment="center"
+                android:textSize="30sp"/>
 
             <Button
                 android:id="@+id/btnsave"
