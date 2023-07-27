@@ -56,7 +56,7 @@ class AddMediaToPostFragment : Fragment() {
 
 
             parentFragmentManager.beginTransaction()
-                .replace(R.id.placeHolder, createpost())
+                .replace(R.id.placeHolder, CreatePostFragment())
                 .addToBackStack(null)
                 .commit()
         }
