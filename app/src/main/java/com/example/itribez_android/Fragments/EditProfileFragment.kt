@@ -1,59 +1,234 @@
 package com.example.itribez_android.Fragments
 
+import android.app.Activity
+import android.app.Activity.RESULT_OK
+import android.app.AlertDialog
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Gallery
+import android.widget.ImageView
+import android.widget.PopupMenu
+import android.widget.Spinner
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
+import com.bumptech.glide.Glide
+import android.Manifest
+import android.app.DatePickerDialog
+import android.net.Uri
 import com.example.itribez_android.R
+import java.util.Calendar
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [EditProfileFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class EditProfileFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+
+    private lateinit var imageView: ImageView
+    private val CAMERA_REQUEST_CODE = 1
+    private val GALLERY_REQUEST_CODE = 2
+    private var selectedOption: Int = -1
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_profile, container, false)
+        val view = inflater.inflate(R.layout.fragment_edit_profile, container, false)
+        val saveButton: Button = view.findViewById(R.id.btnsave)
+        imageView=view.findViewById(R.id.upload_image)
+        val calendarImageView : ImageView = view.findViewById(R.id.calendar)
+
+        calendarImageView.setOnClickListener {
+            openDatePicker()
+        }
+
+        saveButton.setOnClickListener {
+            val nameEditText: EditText = view.findViewById(R.id.name)
+            val usernameEditText : EditText = view.findViewById(R.id.username)
+            val bioEditText: EditText = view.findViewById(R.id.edbio)
+            val cityEditText: EditText = view.findViewById(R.id.edcity)
+            val name = nameEditText.text.toString()
+            val username = usernameEditText.text.toString()
+            val bio = bioEditText.text.toString()
+            val city = cityEditText.text.toString()
+            val imageUri = imageView.tag as String?
+
+
+          val resultData = Bundle().apply {
+              putString("fullname",name)
+              putString("username",username)
+              putString("bio",bio)
+              putString("imageUri",imageUri)
+          }
+
+            parentFragmentManager.setFragmentResult("editProfileData",resultData)
+            parentFragmentManager.popBackStack()
+
+        }
+        val uploadPictureButton : Button = view.findViewById(R.id.btnuploadpic)
+        uploadPictureButton.setOnClickListener {
+            showImageSourceDialog()
+        }
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment EditProfileFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            EditProfileFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun openDatePicker(){
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(
+            requireContext(),
+            { _, selectedYear, selectedMonth, selectedDay ->
+                val birthdateEditText: EditText = requireView().findViewById(R.id.birthdate)
+                birthdateEditText.setText("$selectedYear-${selectedMonth + 1}-$selectedDay")
+            },
+            year,
+            month,
+            day
+        )
+        datePickerDialog.show()
+    }
+    private fun showImageSourceDialog() {
+        val options = arrayOf<CharSequence>("Open Camera", "Choose from Gallery")
+
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Select Image Source")
+        builder.setItems(options) { _, item ->
+            selectedOption = item
+            when (item) {
+                0 -> checkCameraPermissionAndOpenCamera()
+                1 -> checkGalleryPermissionAndOpenGallery()
+            }
+        }
+        builder.show()
+    }
+
+    private fun checkCameraPermissionAndOpenCamera() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.CAMERA),
+                CAMERA_REQUEST_CODE
+
+            )
+
+        } else {
+            openCamera()
+        }
+    }
+
+    private fun checkGalleryPermissionAndOpenGallery() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                GALLERY_REQUEST_CODE
+            )
+
+        } else{
+            openGallery()
+        }
+
+    }
+
+    private fun openCamera() {
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        if (takePictureIntent.resolveActivity(requireActivity().packageManager) != null) {
+            startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE )
+        }
+    }
+
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, GALLERY_REQUEST_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                CAMERA_REQUEST_CODE -> {
+                    val imageBitmap = data?.extras?.get("data") as Bitmap
+                    imageView.setImageBitmap(imageBitmap)
+
+                    val imageUri = saveImageToGallery(imageBitmap)
+                    imageView.tag = imageUri
+                }
+                GALLERY_REQUEST_CODE -> {
+                    val selectedImageUri = data?.data
+                    Glide.with(this)
+                        .load(selectedImageUri)
+                        .into(imageView)
+
+                    imageView.tag = selectedImageUri.toString()
                 }
             }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            CAMERA_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (selectedOption == 0) { // Camera option was selected
+                        openCamera()
+                    }
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Camera permission denied",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+            GALLERY_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (selectedOption == 1) { // Gallery option was selected
+                        openGallery()
+                    }
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Gallery permission denied",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
+
+    private fun saveImageToGallery(bitmap: Bitmap): Uri {
+        val resolver = requireContext().contentResolver
+        val imageFileName = "image_${System.currentTimeMillis()}.jpg"
+        val imageUri = MediaStore.Images.Media.insertImage(resolver, bitmap, imageFileName, null)
+        return Uri.parse(imageUri)
     }
 }

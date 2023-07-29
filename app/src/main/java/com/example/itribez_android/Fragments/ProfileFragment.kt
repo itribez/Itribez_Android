@@ -4,10 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.example.itribez_android.Fragments.EditProfileFragment
 import com.example.itribez_android.Models.Post
 import com.example.itribez_android.Models.User
 import com.example.itribez_android.R
@@ -30,6 +35,8 @@ class ProfileFragment : Fragment() {
     private lateinit var helpandsupport: TextView
 
     var postList:List<Post>?=null
+    private lateinit var profileImageView: ImageView
+
     private lateinit var firebaseUser: FirebaseUser
 
     override fun onCreateView(
@@ -107,6 +114,35 @@ class ProfileFragment : Fragment() {
                 dialog?.dismiss()
 
             }
+            }
+            val editProfileBtn: Button = view.findViewById(R.id.edit_profile_Button)
+            editProfileBtn.setOnClickListener {
+            val editProfileFragment = EditProfileFragment()
+            editProfileFragment.arguments = Bundle()
+            fragmentManager?.beginTransaction()
+                ?.replace(R.id.placeHolder, editProfileFragment)
+                ?.addToBackStack(null)
+                ?.commit()
+        }
+        parentFragmentManager.setFragmentResultListener("editProfileData",viewLifecycleOwner) { _, result ->
+            val fullname = result.getString("fullname", "")
+            val username = result.getString("username", "")
+            val bio = result.getString("bio", "")
+            val imageUri=result.getString("imageUri")
+
+            val toolbarUsernameTextView: TextView = view.findViewById(R.id.profile_toolbar_username)
+            val profileUsernameTextView: TextView = view.findViewById(R.id.username_in_profile)
+            val profileFullNameTextView: TextView = view.findViewById(R.id.fullname_in_profile)
+            val profileBioTextView: TextView = view.findViewById(R.id.bio_profile)
+            val profileImageView : ImageView= view.findViewById(R.id.profile_image_profile)
+
+            if(!imageUri.isNullOrEmpty()){
+                Glide.with(this).load(imageUri).into(profileImageView)
+            }
+            toolbarUsernameTextView.text = username
+            profileUsernameTextView.text = username
+            profileFullNameTextView.text = fullname
+            profileBioTextView.text = bio
 
         }
 
