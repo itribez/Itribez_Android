@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.widget.AppCompatImageView
+import com.example.itribez_android.utils.SessionManager
 
 class SplashActivity : AppCompatActivity() {
     private val SPLASH_DURATION: Long = 2000 // 2 seconds
@@ -24,11 +25,20 @@ class SplashActivity : AppCompatActivity() {
         fadeInAnimator.addListener(object : Animator.AnimatorListener {
             override fun onAnimationStart(animation: Animator) {}
             override fun onAnimationEnd(animation: Animator) {
+                val isLogin = SessionManager.getBool(applicationContext, SessionManager.IS_LOGIN)
                 // Animation complete, navigate to the main activity
-                val intent = Intent(this@SplashActivity, LoginActivity::class.java)
-                startActivity(intent)
-                finish()
+                if (isLogin) {
+                    val intent = Intent(this@SplashActivity, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                } else {
+                    val intent = Intent(this@SplashActivity, LoginActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+
             }
+
             override fun onAnimationCancel(animation: Animator) {}
             override fun onAnimationRepeat(animation: Animator) {}
         })

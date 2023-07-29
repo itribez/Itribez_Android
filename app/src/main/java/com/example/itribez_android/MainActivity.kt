@@ -10,9 +10,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.itribez_android.Fragments.HomeFragment
 import com.example.itribez_android.Fragments.ProfileFragment
-import com.example.itribez_android.Fragments.beforepost
+import com.example.itribez_android.Fragments.AddMediaToPostFragment
 import com.example.itribez_android.Fragments.NotificationFragment
-import com.example.itribez_android.Fragments.createpost
+import com.example.itribez_android.Fragments.CreatePostFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         if (isGranted) {
-            loadFragment(beforepost())
+            loadFragment(NotificationFragment())
             // Permission granted, proceed with loading the image
         } else {
             // Permission denied, handle accordingly
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.create -> {
-                    loadFragment(createpost())
+                    loadFragment(CreatePostFragment())
                     true
                 }
 
@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
                 permission
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            loadFragment(beforepost())
+            loadFragment(AddMediaToPostFragment())
         } else {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
                 // Explain why the permission is needed (optional)
