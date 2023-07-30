@@ -61,6 +61,12 @@ class CreatePostFragment : Fragment() {
             Log.d("CreatePostFragment", "Description: $description")
             Log.d("CreatePostFragment", "Location: $location")
             Log.d("CreatePostFragment", "Tag: $tag")
+
+            Toast.makeText(
+                requireContext(),
+                "Post Added Successfully",
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
         imageView1.setOnClickListener {

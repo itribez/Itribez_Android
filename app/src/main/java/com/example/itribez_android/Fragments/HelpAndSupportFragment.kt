@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.itribez_android.Api.Responses.BaseResponse
 import com.example.itribez_android.R
 import kotlinx.android.synthetic.main.fragment_help_and_support.btnSubmit
 import kotlinx.android.synthetic.main.fragment_help_and_support.etEmail
@@ -41,7 +43,7 @@ class HelpAndSupportFragment : Fragment() {
             val phoneNumber = etPhoneNumber.text.toString()
             val email = etEmail.text.toString()
             val problem = etProblem.text.toString()
-
+            Toast.makeText(requireContext(), "Help Requested Successfully", Toast.LENGTH_SHORT).show()
             Log.d("HelpAndSupportFragment", "Name: $name")
             Log.d("HelpAndSupportFragment", "Phone Number: $phoneNumber")
             Log.d("HelpAndSupportFragment", "Email: $email")

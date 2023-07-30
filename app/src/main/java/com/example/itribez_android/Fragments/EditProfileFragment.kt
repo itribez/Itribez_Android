@@ -73,6 +73,7 @@ class EditProfileFragment : Fragment() {
               putString("bio",bio)
               putString("imageUri",imageUri)
           }
+            Toast.makeText(requireContext(), "Profile Successfully Edited", Toast.LENGTH_SHORT).show()
 
             parentFragmentManager.setFragmentResult("editProfileData",resultData)
             parentFragmentManager.popBackStack()
