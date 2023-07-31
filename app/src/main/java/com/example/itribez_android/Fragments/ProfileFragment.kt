@@ -16,14 +16,14 @@ import com.example.itribez_android.Fragments.EditProfileFragment
 import com.example.itribez_android.Models.Post
 import com.example.itribez_android.Models.User
 import com.example.itribez_android.R
-import kotlinx.android.synthetic.main.fragment_profile.view.*
+//import kotlinx.android.synthetic.main.fragment_profile.view.*
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.squareup.picasso.Picasso
+//import com.google.firebase.database.DataSnapshot
+//import com.google.firebase.database.DatabaseError
+//import com.google.firebase.database.FirebaseDatabase
+//import com.google.firebase.database.ValueEventListener
+//import com.squareup.picasso.Picasso
 
 
 class ProfileFragment : Fragment() {
@@ -128,7 +128,7 @@ class ProfileFragment : Fragment() {
             val fullname = result.getString("fullname", "")
             val username = result.getString("username", "")
             val bio = result.getString("bio", "")
-            val imageUri=result.getString("imageUri")
+            val imageUri=result.getString("imageUri1")
 
             val toolbarUsernameTextView: TextView = view.findViewById(R.id.profile_toolbar_username)
             val profileUsernameTextView: TextView = view.findViewById(R.id.username_in_profile)
@@ -145,35 +145,30 @@ class ProfileFragment : Fragment() {
             profileBioTextView.text = bio
 
         }
-
-
-
-
-
 //        getUserInfo(view)
         return view
     }
 
 
-    private fun getUserInfo(view: View) {
-        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(profileId)
-        usersRef.addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-
-            override fun onDataChange(snapshot: DataSnapshot) {
-
-                if (snapshot.exists()) {
-                    val user = snapshot.getValue<User>(User::class.java)
-                    Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(view.profile_image_profile)
-                    view.profile_toolbar_username?.text=user.getUsername()
-                    view.fullname_in_profile?.text= user.getFullname()
-                    view.username_in_profile?.text= user.getUsername()
-                    view.bio_profile?.text= user.getBio()
-
-                }
-            }
-        })
-    }
+//    private fun getUserInfo(view: View) {
+//        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(profileId)
+//        usersRef.addValueEventListener(object : ValueEventListener {
+//            override fun onCancelled(error: DatabaseError) {
+//
+//            }
+//
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//
+//                if (snapshot.exists()) {
+//                    val user = snapshot.getValue<User>(User::class.java)
+//                    Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(view.profile_image_profile)
+//                    view.profile_toolbar_username?.text=user.getUsername()
+//                    view.fullname_in_profile?.text= user.getFullname()
+//                    view.username_in_profile?.text= user.getUsername()
+//                    view.bio_profile?.text= user.getBio()
+//
+//                }
+//            }
+//        })
+//    }
 }

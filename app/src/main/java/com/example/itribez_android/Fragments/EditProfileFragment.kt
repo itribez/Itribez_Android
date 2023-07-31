@@ -37,9 +37,9 @@ import java.util.Calendar
 class EditProfileFragment : Fragment() {
 
 
-    private lateinit var imageView: ImageView
-    private val CAMERA_REQUEST_CODE = 1
-    private val GALLERY_REQUEST_CODE = 2
+    private lateinit var upload_image: ImageView
+    private val CAMERA_REQUEST_CODE = 101
+    private val GALLERY_REQUEST_CODE = 102
     private var selectedOption: Int = -1
 
     override fun onCreateView(
@@ -48,7 +48,7 @@ class EditProfileFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_edit_profile, container, false)
         val saveButton: Button = view.findViewById(R.id.btnsave)
-        imageView=view.findViewById(R.id.upload_image)
+        upload_image = view.findViewById(R.id.upload_image)
         val calendarImageView : ImageView = view.findViewById(R.id.calendar)
 
         calendarImageView.setOnClickListener {
@@ -64,14 +64,14 @@ class EditProfileFragment : Fragment() {
             val username = usernameEditText.text.toString()
             val bio = bioEditText.text.toString()
             val city = cityEditText.text.toString()
-            val imageUri = imageView.tag as String?
+            val imageUri = upload_image.tag as String?
 
 
           val resultData = Bundle().apply {
               putString("fullname",name)
               putString("username",username)
               putString("bio",bio)
-              putString("imageUri",imageUri)
+              putString("imageUri1",imageUri)
           }
             Toast.makeText(requireContext(), "Profile Successfully Edited", Toast.LENGTH_SHORT).show()
 
@@ -174,18 +174,18 @@ class EditProfileFragment : Fragment() {
             when (requestCode) {
                 CAMERA_REQUEST_CODE -> {
                     val imageBitmap = data?.extras?.get("data") as Bitmap
-                    imageView.setImageBitmap(imageBitmap)
+                    upload_image.setImageBitmap(imageBitmap)
 
                     val imageUri = saveImageToGallery(imageBitmap)
-                    imageView.tag = imageUri
+                    upload_image.tag = imageUri.toString()
                 }
                 GALLERY_REQUEST_CODE -> {
                     val selectedImageUri = data?.data
                     Glide.with(this)
                         .load(selectedImageUri)
-                        .into(imageView)
+                        .into(upload_image)
 
-                    imageView.tag = selectedImageUri.toString()
+                    upload_image.tag = selectedImageUri.toString()
                 }
             }
         }
