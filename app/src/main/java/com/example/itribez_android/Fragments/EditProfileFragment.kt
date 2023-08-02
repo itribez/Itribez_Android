@@ -66,7 +66,6 @@ class EditProfileFragment : Fragment() {
             val city = cityEditText.text.toString()
             val imageUri = upload_image.tag as String?
 
-
           val resultData = Bundle().apply {
               putString("fullname",name)
               putString("username",username)
@@ -74,16 +73,13 @@ class EditProfileFragment : Fragment() {
               putString("imageUri1",imageUri)
           }
             Toast.makeText(requireContext(), "Profile Successfully Edited", Toast.LENGTH_SHORT).show()
-
             parentFragmentManager.setFragmentResult("editProfileData",resultData)
             parentFragmentManager.popBackStack()
-
         }
         val uploadPictureButton : Button = view.findViewById(R.id.btnuploadpic)
         uploadPictureButton.setOnClickListener {
             showImageSourceDialog()
         }
-
         return view
     }
 

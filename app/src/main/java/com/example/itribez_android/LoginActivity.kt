@@ -32,7 +32,6 @@ class LoginActivity : AppCompatActivity() {
     lateinit var btnLogin: Button
     lateinit var txtViewSignUp: TextView
     lateinit var btnGoogle: Button
-    lateinit var prgbar: ProgressBar
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
     private val viewModel by viewModels<LoginViewModel>()
@@ -45,7 +44,6 @@ class LoginActivity : AppCompatActivity() {
         btnLogin = findViewById(R.id.btnLogin)
         txtViewSignUp = findViewById(R.id.txtViewSignUp)
         btnGoogle = findViewById(R.id.btnGoogle)
-        prgbar = findViewById(R.id.prgbar)
         val token = SessionManager.getToken(this)
         if (!token.isNullOrBlank()) {
             navigateToHome()
@@ -53,19 +51,17 @@ class LoginActivity : AppCompatActivity() {
         viewModel.loginResult.observe(this) {
             when (it) {
                 is BaseResponse.Loading -> {
-                    showLoading()
+                    //showLoading()
                 }
 
                 is BaseResponse.Success -> {
-                    stopLoading()
+                    //stopLoading()
                     SessionManager.saveBool(applicationContext,SessionManager.IS_LOGIN, true)
                     processLogin(it.data)
                 }
-
                 is BaseResponse.Error -> {
                     processError(it.msg)
                 }
-
             }
         }
         firebaseAuth = FirebaseAuth.getInstance()
@@ -82,7 +78,6 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
         }
-
         btnLogin.setOnClickListener {
             doLogin()
         }
@@ -108,12 +103,6 @@ class LoginActivity : AppCompatActivity() {
     }
     private fun showToast(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-    }
-    private fun stopLoading() {
-        prgbar.visibility = View.GONE
-    }
-    private fun showLoading() {
-        prgbar.visibility = View.VISIBLE
     }
     private fun navigateToHome() {
         val intent = Intent(this, MainActivity::class.java)

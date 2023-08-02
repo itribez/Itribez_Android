@@ -26,7 +26,6 @@ class SignUpActivity : AppCompatActivity() {
     lateinit var editTextSignUpPassword: TextInputEditText
     lateinit var btnSignUp: Button
     lateinit var txtViewSignIn: TextView
-    lateinit var prgbarregister:ProgressBar
     private val viewModel by viewModels<RegisterViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +36,6 @@ class SignUpActivity : AppCompatActivity() {
         editTextSignUpEmail = findViewById(R.id.editSignUpTextEmailId)
         editTextSignUpPassword = findViewById(R.id.editSignUpTextPassword)
         btnSignUp = findViewById(R.id.btnSignUp)
-        prgbarregister = findViewById(R.id.prgbarregister)
         txtViewSignIn = findViewById(R.id.txtViewSignIn)
         val token = SessionManager.getToken(this)
         if (!token.isNullOrBlank()) {
@@ -46,10 +44,10 @@ class SignUpActivity : AppCompatActivity() {
         viewModel.registerResult.observe(this) {
             when (it) {
                 is BaseResponse.Loading -> {
-                   showLoading()
+                   //showLoading()
                 }
                 is BaseResponse.Success -> {
-                    stopLoading()
+                    //stopLoading()
                     processRegister(it.data)
                 }
                 is BaseResponse.Error -> {
@@ -92,10 +90,6 @@ class SignUpActivity : AppCompatActivity() {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
-    private fun stopLoading() {
-        prgbarregister.visibility = View.GONE
-    }
-    private fun showLoading() {prgbarregister.visibility = View.VISIBLE}
 
     private fun navigateToHome() {
         val intent = Intent(this, MainActivity::class.java)

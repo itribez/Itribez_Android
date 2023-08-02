@@ -2,10 +2,12 @@ package com.example.itribez_android.Fragments
 
 import android.Manifest
 import android.app.Activity
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.Parcel
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,11 +21,19 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.itribez_android.R
+import com.example.itribez_android.RoomDatabase.PostDao
+import com.example.itribez_android.RoomDatabase.PostDatabase
+import com.example.itribez_android.RoomDatabase.entities.PostEntity
+import com.example.itribez_android.dataclasses.DataClassPosts
+import com.example.itribez_android.utils.Constant
+import kotlinx.coroutines.launch
 
 class CreatePostFragment : Fragment() {
-
 
     private val REQUEST_IMAGE_CAPTURE = 1
     private val REQUEST_GALLERY = 2
@@ -33,6 +43,7 @@ class CreatePostFragment : Fragment() {
     private lateinit var locationEditText: EditText
     private lateinit var tagEditText: EditText
     private lateinit var imageView1: ImageView
+    private lateinit var postDao: PostDao
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,30 +54,53 @@ class CreatePostFragment : Fragment() {
         descriptionEditText = view.findViewById(R.id.description)
         locationEditText = view.findViewById(R.id.location)
         tagEditText = view.findViewById(R.id.Tag)
-
+        val db = PostDatabase.getInstance(requireContext())
+        postDao = db.postDao()
         imageView = view.findViewById(R.id.img)
         imageView1 = view.findViewById(R.id.back)
         imageView.setOnClickListener {
             showImageSourceDialog()
         }
-
         val postButton: Button = view.findViewById(R.id.postbutton)
         postButton.setOnClickListener {
-            // Retrieve the text from EditText fields
+            //Retrieve the text from EditText fields
+            val post = PostEntity()
             val description = descriptionEditText.text.toString()
             val location = locationEditText.text.toString()
             val tag = tagEditText.text.toString()
+            val imageUri = imageView1.tag as String?
 
+            lifecycleScope.launch {
+                val newPost = PostEntity(
+                 postID = post.postID ,description,location,tag
+                )
+                postDao.insert(newPost)
+                val resultData= Bundle().apply {
+                    putString("description",description)
+                    putString("location",location)
+                    putString("tag",tag)
+                    putString("imageUriPost",imageUri)
+                }
+                Constant.arrayListPostMain.add(DataClassPosts(R.drawable.img1,description,location,tag))
+                Toast.makeText(requireContext(), "Post Created Successfully", Toast.LENGTH_SHORT).show()
+                parentFragmentManager.setFragmentResult("Create Post",resultData)
+                parentFragmentManager.popBackStack()
+                //requireActivity().onBackPressed()
+                //fragmentManager?.beginTransaction()?.remove(this@CreatePostFragment)?.commit()
+                //findNavController().navigate(R.id.action_createPostFragment_to_homeFragment, resultData)
+            }
+
+            Log.d(TAG, "onCreateView: $description $location $tag")
             // Log the text in the logcat
-            Log.d("CreatePostFragment", "Description: $description")
+        /*    Log.d("CreatePostFragment", "Description: $description")
             Log.d("CreatePostFragment", "Location: $location")
-            Log.d("CreatePostFragment", "Tag: $tag")
-
+            Log.d("CreatePostFragment", "Tag: $tag")*/
+/*
             Toast.makeText(
                 requireContext(),
                 "Post Added Successfully",
                 Toast.LENGTH_SHORT
-            ).show()
+            ).show()*/
         }
 
         imageView1.setOnClickListener {
