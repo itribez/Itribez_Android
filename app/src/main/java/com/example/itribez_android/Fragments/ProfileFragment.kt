@@ -33,6 +33,7 @@ class ProfileFragment : Fragment() {
     private lateinit var soundandvibration: TextView
     private lateinit var notification: TextView
     private lateinit var helpandsupport: TextView
+    private lateinit var editprofile: Button
 
     var postList:List<Post>?=null
     private lateinit var profileImageView: ImageView
@@ -46,6 +47,7 @@ class ProfileFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
         setting = view.findViewById(R.id.option_view)
+
 
 
 

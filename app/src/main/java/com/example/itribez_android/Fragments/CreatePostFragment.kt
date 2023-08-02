@@ -26,7 +26,7 @@ class CreatePostFragment : Fragment() {
 
 
     private val REQUEST_IMAGE_CAPTURE = 1
-    private val REQUEST_GALLERY = 2
+    private val REQUEST_GALLERY_CREATE_POST = 2
     private lateinit var imageView: ImageView
     private var selectedOption: Int = -1
     private lateinit var descriptionEditText: EditText
@@ -62,11 +62,16 @@ class CreatePostFragment : Fragment() {
             Log.d("CreatePostFragment", "Location: $location")
             Log.d("CreatePostFragment", "Tag: $tag")
 
-            Toast.makeText(
-                requireContext(),
-                "Post Added Successfully",
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(requireContext(), "Post created successfully", Toast.LENGTH_SHORT).show()
+
+            // Replace this with the Fragment you want to navigate to (e.g., MainFragment)
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.placeHolder, HomeFragment())
+                .addToBackStack(null)
+                .commit()
+
+
+
         }
 
         imageView1.setOnClickListener {
@@ -101,8 +106,7 @@ class CreatePostFragment : Fragment() {
                 Manifest.permission.CAMERA
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
+            requestPermissions(
                 arrayOf(Manifest.permission.CAMERA),
                 REQUEST_IMAGE_CAPTURE
 
@@ -119,14 +123,15 @@ class CreatePostFragment : Fragment() {
                 Manifest.permission.READ_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
+            requestPermissions(
+//                requireActivity(),
                 arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                REQUEST_GALLERY
+                REQUEST_GALLERY_CREATE_POST
             )
 
         } else{
             openGallery()
+            Log.d("CreatePostFragment", "Here is code1")
         }
 
     }
@@ -135,12 +140,14 @@ class CreatePostFragment : Fragment() {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         if (takePictureIntent.resolveActivity(requireActivity().packageManager) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+            Log.d("CreatePostFragment", "Here is camera2")
         }
     }
 
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(intent, REQUEST_GALLERY)
+        startActivityForResult(intent, REQUEST_GALLERY_CREATE_POST)
+        Log.d("CreatePostFragment", "Here is gallery opoen2 ")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -151,11 +158,12 @@ class CreatePostFragment : Fragment() {
                     val imageBitmap = data?.extras?.get("data") as Bitmap
                     imageView.setImageBitmap(imageBitmap)
                 }
-                REQUEST_GALLERY -> {
+                REQUEST_GALLERY_CREATE_POST -> {
                     val selectedImageUri = data?.data
                     Glide.with(this)
                         .load(selectedImageUri)
                         .into(imageView)
+                    Log.d("CreatePostFragment", "Here is gallery3")
                 }
             }
         }
@@ -180,7 +188,7 @@ class CreatePostFragment : Fragment() {
                     ).show()
                 }
             }
-            REQUEST_GALLERY -> {
+            REQUEST_GALLERY_CREATE_POST -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (selectedOption == 1) { // Gallery option was selected
                         openGallery()
