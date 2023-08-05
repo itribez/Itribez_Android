@@ -94,6 +94,7 @@ class CreatePostFragment : Fragment() {
             // Log the text in the logcat
         /*    Log.d("CreatePostFragment", "Description: $description")
             Log.d("CreatePostFragment", "Location: $location")
+<<<<<<< Updated upstream
             Log.d("CreatePostFragment", "Tag: $tag")*/
 /*
             Toast.makeText(
@@ -101,6 +102,9 @@ class CreatePostFragment : Fragment() {
                 "Post Added Successfully",
                 Toast.LENGTH_SHORT
             ).show()*/
+=======
+            Log.d("CreatePostFragment", "Tag: $tag")
+>>>>>>> Stashed changes
         }
 
         imageView1.setOnClickListener {
