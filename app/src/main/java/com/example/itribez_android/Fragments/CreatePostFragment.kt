@@ -102,9 +102,8 @@ class CreatePostFragment : Fragment() {
                 "Post Added Successfully",
                 Toast.LENGTH_SHORT
             ).show()*/
-=======
+
             Log.d("CreatePostFragment", "Tag: $tag")
->>>>>>> Stashed changes
         }
 
         imageView1.setOnClickListener {
