@@ -45,7 +45,7 @@ class NotificationFragment : Fragment() {
                 R.drawable.profile_img_temp,
                 "Ayushi Patel",
                 "Started following you",
-                "follow"
+                "20 minutes ago"
             )
         )
         arrayList.add(
@@ -53,7 +53,7 @@ class NotificationFragment : Fragment() {
                 R.drawable.profile_img_temp,
                 "Indu Pandey",
                 "Started following you",
-                "follow"
+                "15 minutes ago"
             )
         )
         arrayList.add(
@@ -61,7 +61,7 @@ class NotificationFragment : Fragment() {
                 R.drawable.profile_img_temp,
                 "Dhrumil Desai",
                 "Started following you",
-                "follow"
+                "50 seconds ago"
             )
         )
         arrayList.add(
@@ -69,7 +69,7 @@ class NotificationFragment : Fragment() {
                 R.drawable.profile_img_temp,
                 "Vrunda Patel",
                 "Started following you",
-                "follow"
+                "1 hour ago"
             )
         )
         arrayList.add(
@@ -77,7 +77,7 @@ class NotificationFragment : Fragment() {
                 R.drawable.profile_img_temp,
                 "Sinthuvamasan",
                 "Started following you",
-                "follow"
+                "2 minutes ago"
             )
         )
         arrayList.add(
@@ -85,7 +85,7 @@ class NotificationFragment : Fragment() {
                 R.drawable.profile_img_temp,
                 "Charvi Parhwak",
                 "Started following you",
-                "follow"
+                "20 minutes ago"
             )
         )
         arrayList.add(
@@ -93,7 +93,7 @@ class NotificationFragment : Fragment() {
                 R.drawable.profile_img_temp,
                 "Brijal Patel",
                 "Started following you",
-                "follow"
+                "half an hour ago"
             )
         )
         arrayList.add(
@@ -101,7 +101,7 @@ class NotificationFragment : Fragment() {
                 R.drawable.profile_img_temp,
                 "Saumya Maurya",
                 "Started following you",
-                "follow"
+                "30 minutes ago"
             )
         )
         arrayList.add(
@@ -109,7 +109,7 @@ class NotificationFragment : Fragment() {
                 R.drawable.profile_img_temp,
                 "Ayushi Patel",
                 "Started following you",
-                "follow"
+                "20 minutes ago"
             )
         )
         arrayList.add(
@@ -117,7 +117,7 @@ class NotificationFragment : Fragment() {
                 R.drawable.profile_img_temp,
                 "Indu Pandey",
                 "Started following you",
-                "follow"
+                "20 minutes ago"
             )
         )
         arrayList.add(
@@ -125,7 +125,7 @@ class NotificationFragment : Fragment() {
                 R.drawable.profile_img_temp,
                 "Dhrumil Desai",
                 "Started following you",
-                "follow"
+                "20 minutes ago"
             )
         )
         arrayList.add(
@@ -133,7 +133,7 @@ class NotificationFragment : Fragment() {
                 R.drawable.profile_img_temp,
                 "Vrunda Patel",
                 "Started following you",
-                "follow"
+                "20 minutes ago"
             )
         )
         arrayList.add(
@@ -141,7 +141,7 @@ class NotificationFragment : Fragment() {
                 R.drawable.profile_img_temp,
                 "Sinthuvamasan",
                 "Started following you",
-                "follow"
+                "20 minutes ago"
             )
         )
         arrayList.add(
@@ -149,7 +149,7 @@ class NotificationFragment : Fragment() {
                 R.drawable.profile_img_temp,
                 "Charvi Parhwak",
                 "Started following you",
-                "follow"
+                "20 minutes ago"
             )
         )
         arrayList.add(
@@ -157,7 +157,7 @@ class NotificationFragment : Fragment() {
                 R.drawable.profile_img_temp,
                 "Brijal Patel",
                 "Started following you",
-                "follow"
+                "20 minutes ago"
             )
         )
         arrayList.add(
@@ -165,7 +165,7 @@ class NotificationFragment : Fragment() {
                 R.drawable.profile_img_temp,
                 "Saumya Maurya",
                 "Started following you",
-                "follow"
+                "20 minutes ago"
             )
         )
     }

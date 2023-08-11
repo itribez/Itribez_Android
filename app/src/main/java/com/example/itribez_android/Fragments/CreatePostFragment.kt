@@ -69,38 +69,23 @@ class CreatePostFragment : Fragment() {
             val location = locationEditText.text.toString()
             val tag = tagEditText.text.toString()
             val imageUri = imageView1.tag as String?
-
             lifecycleScope.launch {
-                val newPost = PostEntity(
-                 postID = post.postID ,description,location,tag
-                )
+                val newPost = PostEntity(postID = post.postID ,description,location,tag)
                 postDao.insert(newPost)
-                val resultData= Bundle().apply {
+                val resultData= Bundle().apply{
                     putString("description",description)
                     putString("location",location)
                     putString("tag",tag)
                     putString("imageUriPost",imageUri)
                 }
                 Constant.arrayListPostMain.add(DataClassPosts(R.drawable.img1,description,location,tag))
+
                 Toast.makeText(requireContext(), "Post Created Successfully", Toast.LENGTH_SHORT).show()
                 parentFragmentManager.setFragmentResult("Create Post",resultData)
                 parentFragmentManager.popBackStack()
-                //requireActivity().onBackPressed()
-                //fragmentManager?.beginTransaction()?.remove(this@CreatePostFragment)?.commit()
-                //findNavController().navigate(R.id.action_createPostFragment_to_homeFragment, resultData)
             }
-
+            //Log the text in the logcat
             Log.d(TAG, "onCreateView: $description $location $tag")
-            // Log the text in the logcat
-        /*    Log.d("CreatePostFragment", "Description: $description")
-            Log.d("CreatePostFragment", "Location: $location")
-            Log.d("CreatePostFragment", "Tag: $tag")*/
-/*
-            Toast.makeText(
-                requireContext(),
-                "Post Added Successfully",
-                Toast.LENGTH_SHORT
-            ).show()*/
         }
 
         imageView1.setOnClickListener {

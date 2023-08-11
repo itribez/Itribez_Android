@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
@@ -34,6 +35,6 @@ class NotificationAdapter(var list: ArrayList<DataClassNotification>) :
         var imgViewProfile = itemView.findViewById<AppCompatImageView>(R.id.imgProfile)
         var txtViewName = itemView.findViewById<AppCompatTextView>(R.id.txtViewName)
         var txtViewInfo = itemView.findViewById<AppCompatTextView>(R.id.txtViewInformation)
-        var btnFollow = itemView.findViewById<Button>(R.id.btnFollow)
+        var btnFollow = itemView.findViewById<TextView>(R.id.btnFollow)
     }
 }

@@ -49,14 +49,12 @@
         app:layout_constraintStart_toStartOf="@id/txtViewName"
         app:layout_constraintTop_toBottomOf="@id/txtViewName" />
 
-    <Button
+    <TextView
         android:id="@+id/btnFollow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
-        android:background="@drawable/bg_btn_notification"
-        android:paddingHorizontal="30dp"
-        android:text="Follow"
+        android:text="20 minutes ago"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="@id/txtViewInformation"
         app:layout_constraintEnd_toEndOf="parent"

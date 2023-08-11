@@ -70,15 +70,6 @@ class HomeFragment : Fragment() {
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        arrayList.add(DataClassPosts(R.drawable.img1,"Looking for Accommodation.","hey there!","Ayushi Patel"))
-        arrayList.add(DataClassPosts(R.drawable.img5,"Travelling Kitchener","hey there!","Indu Pandey"))
-        arrayList.add(DataClassPosts(R.drawable.img2,"Must visit this in Barrie","hey there!","Dhrumil Desai"))
-        Constant.arrayListPostMain.addAll(arrayList)
-        arrayList.add(DataClassPosts(R.drawable.img1,"Looking for Accommodation.","hey there!","Vrunda Patel"))
-        arrayList.add(DataClassPosts(R.drawable.img5,"Must visit this in Barrie","hey there!","Brijal Patel"))
-        arrayList.add(DataClassPosts(R.drawable.img,"Travelling Brampton","hey there!","Sinthuvamasan"))
-        arrayList.add(DataClassPosts(R.drawable.img1,"Loooking for Accommodation","hey there!","Saumya Maurya"))
-        arrayList.add(DataClassPosts(R.drawable.img5,"Must visit this in Toronto","hey there!","Charvi Parhwak"))
-
+        arrayListPostMain.addAll(arrayList)
     }
 }
