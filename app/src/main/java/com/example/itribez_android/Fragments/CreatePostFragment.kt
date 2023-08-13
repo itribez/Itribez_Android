@@ -86,8 +86,7 @@ class CreatePostFragment : Fragment() {
             }
             //Log the text in the logcat
             Log.d(TAG, "onCreateView: $description $location $tag")
-<<<<<<< HEAD
-=======
+
             // Log the text in the logcat
         /*    Log.d("CreatePostFragment", "Description: $description")
             Log.d("CreatePostFragment", "Location: $location")
@@ -101,7 +100,7 @@ class CreatePostFragment : Fragment() {
             ).show()*/
 
             Log.d("CreatePostFragment", "Tag: $tag")
->>>>>>> 691dd9ba6cc9b3dba5af1d5d21377158954bd284
+
         }
 
         imageView1.setOnClickListener {
