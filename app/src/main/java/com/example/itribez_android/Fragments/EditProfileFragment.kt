@@ -1,34 +1,30 @@
 package com.example.itribez_android.Fragments
 
+
 import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
+import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import androidx.fragment.app.Fragment
+
+import android.util.Log
+
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Gallery
 import android.widget.ImageView
-import android.widget.PopupMenu
-import android.widget.Spinner
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
-import android.Manifest
 import android.app.DatePickerDialog
 import android.net.Uri
 import com.example.itribez_android.R
@@ -37,8 +33,9 @@ import java.util.Calendar
 class EditProfileFragment : Fragment() {
 
 
+
     private lateinit var upload_image: ImageView
-    private val CAMERA_REQUEST_CODE = 101
+    private val CAMERA_REQUEST_CODE = 103
     private val GALLERY_REQUEST_CODE = 102
     private var selectedOption: Int = -1
 
@@ -228,4 +225,5 @@ class EditProfileFragment : Fragment() {
         val imageUri = MediaStore.Images.Media.insertImage(resolver, bitmap, imageFileName, null)
         return Uri.parse(imageUri)
     }
+
 }

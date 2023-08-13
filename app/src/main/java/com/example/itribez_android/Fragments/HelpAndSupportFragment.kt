@@ -48,6 +48,15 @@ class HelpAndSupportFragment : Fragment() {
             Log.d("HelpAndSupportFragment", "Phone Number: $phoneNumber")
             Log.d("HelpAndSupportFragment", "Email: $email")
             Log.d("HelpAndSupportFragment", "Problem: $problem")
+
+
+
+            // Replace this with the Fragment you want to navigate to (e.g., MainFragment)
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.placeHolder, ProfileFragment())
+                .addToBackStack(null)
+                .commit()
+
         }
     }
 
