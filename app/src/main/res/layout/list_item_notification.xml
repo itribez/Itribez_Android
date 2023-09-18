@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewProfileImage"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        app:cardCornerRadius="35dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgProfile"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/profile_img_temp" />
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtViewName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="Ayushi Patel"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/txtViewInformation"
+        app:layout_constraintStart_toEndOf="@id/cardViewProfileImage"
+        app:layout_constraintTop_toTopOf="@id/cardViewProfileImage" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtViewInformation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="started following you"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/cardViewProfileImage"
+        app:layout_constraintStart_toStartOf="@id/txtViewName"
+        app:layout_constraintTop_toBottomOf="@id/txtViewName" />
+
+    <Button
+        android:id="@+id/btnFollow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/bg_btn_notification"
+        android:paddingHorizontal="30dp"
+        android:text="Follow"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="@id/txtViewInformation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/txtViewName" />
+
+    <View
+        android:id="@+id/viewNotification"
+        android:layout_width="0dp"
+        android:layout_height="3dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/view_notification"
+        app:layout_constraintEnd_toEndOf="@id/btnFollow"
+        app:layout_constraintStart_toStartOf="@id/cardViewProfileImage"
+        app:layout_constraintTop_toBottomOf="@id/cardViewProfileImage" />
+</androidx.constraintlayout.widget.ConstraintLayout>
