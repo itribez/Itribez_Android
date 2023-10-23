@@ -11,13 +11,19 @@ object SessionManager {
 
     const val USER_TOKEN = "user_token"
 
+    const val USER_ID = "user_id"
     /**
      * Function to save auth token
      */
     fun saveAuthToken(context: Context, token: String) {
         saveString(context, USER_TOKEN, token)
     }
-
+    fun saveUserId(context: Context,userId:String){
+        saveString(context, USER_ID, userId)
+    }
+    fun getUserId(context: Context):String?{
+        return getString(context, USER_ID)
+    }
     /**
      * Function to fetch auth token
      */
