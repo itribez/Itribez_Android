@@ -1,6 +1,7 @@
 package com.example.itribez_android.ViewModels
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -24,10 +25,13 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                     email = email
                 )
                 val response = userRepo.loginUser(loginRequest = loginRequest)
+                val context :Context = getApplication()
                 if (response?.code() == 200) {
                     val loginResponse = response.body()
                     loginResult.value = BaseResponse.Success(response.body())
                     authToken = loginResponse?.token
+                    SessionManager.saveAuthToken(context, loginResponse?.token.toString())
+                    SessionManager.saveUserId(context,loginResponse?.userId.toString())
                     loginResponse?.token = SessionManager.USER_TOKEN
                     loginResponse?.userId = SessionManager.USER_ID
                 } else {
