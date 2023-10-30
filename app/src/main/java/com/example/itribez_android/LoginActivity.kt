@@ -68,13 +68,13 @@ class LoginActivity : AppCompatActivity() {
 
             }
         }
-        firebaseAuth = FirebaseAuth.getInstance()
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-             .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
+//        firebaseAuth = FirebaseAuth.getInstance()
+//        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//            .requestIdToken(getString(R.string.default_web_client_id))
+//            .requestEmail()
+//            .build()
 
-        googleSignInClient = GoogleSignIn.getClient(this, gso)
+       // googleSignInClient = GoogleSignIn.getClient(this, gso)
         btnGoogle.setOnClickListener {
             signInGoogle()
         }
@@ -156,11 +156,11 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
-    override fun onStart() {
-        super.onStart()
-        if (firebaseAuth.currentUser != null) {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
-    }
+//    override fun onStart() {
+//        super.onStart()
+//        if (firebaseAuth.currentUser != null) {
+//            val intent = Intent(this, MainActivity::class.java)
+//            startActivity(intent)
+//        }
+//    }
 }

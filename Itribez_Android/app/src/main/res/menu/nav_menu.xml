@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/home_selector"
+        android:title="Home"  />
+    <item
+        android:id="@+id/create"
+        android:icon="@drawable/add_selector"
+        android:title="Create" />
+    <item
+        android:id="@+id/notification"
+        android:icon="@drawable/notification_selector"
+        android:title="Notification"
+        />
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/menu_settings"
+        android:title="Settings"
+        />
+
+</menu>

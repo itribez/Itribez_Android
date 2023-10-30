@@ -15,22 +15,22 @@ class MessageViewModel(application: Application) : AndroidViewModel(application)
     val userRepo = UserRepository()
     val postResult: MutableLiveData<BaseResponse<PostResponse?>> = MutableLiveData()
 
-    fun postUser(token: String) {
-
-        postResult.value = BaseResponse.Loading()
-        viewModelScope.launch {
-            try {
-                val postRequest = PostRequest(token)
-                val response = userRepo.getPost(postRequest.toString())
-                Log.d("ResponseCode", response?.code().toString())
-                if (response?.code() == 200) {
-                    postResult.value = BaseResponse.Success(response.body())
-                } else {
-                    postResult.value = BaseResponse.Error(response?.message())
-                }
-            } catch (ex: Exception) {
-                postResult.value = BaseResponse.Error(ex.message)
-            }
-        }
-    }
+//    fun postUser(token: String) {
+//
+//        postResult.value = BaseResponse.Loading()
+//        viewModelScope.launch {
+//            try {
+//                val postRequest = PostRequest(token)
+//               // val response = userRepo.getPost(postRequest.toString())
+//                Log.d("ResponseCode", response?.code().toString())
+//                if (response?.code() == 200) {
+//                    postResult.value = BaseResponse.Success(response.body())
+//                } else {
+//                    postResult.value = BaseResponse.Error(response?.message())
+//                }
+//            } catch (ex: Exception) {
+//                postResult.value = BaseResponse.Error(ex.message)
+//            }
+//        }
+//    }
 }

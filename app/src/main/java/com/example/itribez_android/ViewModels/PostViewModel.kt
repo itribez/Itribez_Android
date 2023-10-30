@@ -17,25 +17,25 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     val userRepo = UserRepository()
     val postResult: MutableLiveData<BaseResponse<PostResponse?>> = MutableLiveData()
 
-    fun postUser(token: String) {
-
-        postResult.value = BaseResponse.Loading()
-        viewModelScope.launch {
-            try {
-                val postRequest = PostRequest(token)
-                val response = userRepo.getPost(postRequest.toString())
-                val context : Context = getApplication()
-                Log.d("ResponseCode", response?.code().toString())
-                if (response?.code() == 200) {
-                    postResult.value = BaseResponse.Success(response.body())
-                   // SessionManager.saveAuthToken(context,loginResponse!!.token)
-                   // SessionManager.saveUserId(context,loginResponse.userId)
-                } else {
-                    postResult.value = BaseResponse.Error(response?.message())
-                }
-            } catch (ex: Exception) {
-                postResult.value = BaseResponse.Error(ex.message)
-            }
-        }
-    }
+//    fun postUser(token: String) {
+//
+//        postResult.value = BaseResponse.Loading()
+//        viewModelScope.launch {
+//            try {
+//                val postRequest = PostRequest(token)
+//                val response = userRepo.getPost(postRequest.toString())
+//                val context : Context = getApplication()
+//                Log.d("ResponseCode", response?.code().toString())
+//                if (response?.code() == 200) {
+//                    postResult.value = BaseResponse.Success(response.body())
+//                   // SessionManager.saveAuthToken(context,loginResponse!!.token)
+//                   // SessionManager.saveUserId(context,loginResponse.userId)
+//                } else {
+//                    postResult.value = BaseResponse.Error(response?.message())
+//                }
+//            } catch (ex: Exception) {
+//                postResult.value = BaseResponse.Error(ex.message)
+//            }
+//        }
+//    }
 }

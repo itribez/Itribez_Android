@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "526905360639",
+    "project_id": "itribez-android",
+    "storage_bucket": "itribez-android.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:526905360639:android:d0ace9a1ab5e97f95d0cca",
+        "android_client_info": {
+          "package_name": "com.example.itribez_android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "526905360639-o85d6eeghgsnlugqv2o1kfffbeilqcq4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.itribez_android",
+            "certificate_hash": "877ace31725bd88296318c241c60c2c454c3c46c"
+          }
+        },
+        {
+          "client_id": "526905360639-6h5cuhhlj0knok4jpdga1fp02fsj0b2l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6QK3guTCbpOqnLWIiiDoX2_5spNOOPTI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "526905360639-6h5cuhhlj0knok4jpdga1fp02fsj0b2l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
