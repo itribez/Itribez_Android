@@ -26,14 +26,13 @@ class PostRepository(private val context: Context) {
     suspend fun createComment(createCommentRequest: CreateCommentRequest):Response<CreateCommentResponse>?{
         return UserApi.getApi()?.createComment(bearerToken,createCommentRequest = createCommentRequest)
     }
-   // private val bearerToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGNhZDJhYzU3NDhmNWRhMTNhYzViNTgiLCJpYXQiOjE2OTU1OTc3MTR9.du9gCZ9OwVW1H1VyqFJGf-jAsMGw5za799kUffLgi3Y"
 
     suspend fun getComments(): Response<CommentResponse>? {
         var response: Response<CommentResponse>? = null
         Log.d("PostRepository", "Bearer Token: $bearerToken")
         return try {
             Log.d("PostRepository", "Bearer Token: $bearerToken")
-            val response = UserApi.getApi()?.getComments("Bearer $bearerToken")
+            val response = UserApi.getApi()?.getComments("$bearerToken")
             Log.d("PostRepository", "Response Code: ${response?.code()}")
             Log.d("PostRepository", "Response Body: ${response?.body()}")
             response

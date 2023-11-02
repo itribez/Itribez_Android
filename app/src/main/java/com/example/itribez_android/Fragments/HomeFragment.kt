@@ -40,7 +40,7 @@ class HomeFragment : androidx.fragment.app.Fragment(), OnLikeClickListener {
     private lateinit var commentInput: EditText
     private lateinit var btnSendComment: ImageView
     private lateinit var userId : String
-    var postId = "64b9d0c0e69fc1dcccd8fc3b"
+    var postId = "6510b73f825da39d0826e8ce"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -84,7 +84,7 @@ class HomeFragment : androidx.fragment.app.Fragment(), OnLikeClickListener {
             )
         )
         arrayList.add(
-            DataClassPosts("6510b73f825da39d0826e8ce",
+            DataClassPosts(postId,
                 R.drawable.img5,
                 "Travelling Kitchener",
                 ArrayList<DataClassComments>(),
@@ -164,20 +164,18 @@ class HomeFragment : androidx.fragment.app.Fragment(), OnLikeClickListener {
 
     private var likeInProgress = false
     override fun onLikeClick(post: DataClassPosts, liked: Boolean) {
-        //val postId = "64b9d0c0e69fc1dcccd8fc3b"
         if (!likeInProgress) {  // Check if a like/unlike operation is not already in progress
             // Set the flag to true to indicate that an operation is in progress
             if (liked) {
                 likeInProgress = true
-                likePost("64b9d0c0e69fc1dcccd8fc3b")
+                likePost(postId)
             } else {
-                unlikePost("64b9d0c0e69fc1dcccd8fc3b")
+                unlikePost(postId)
             }
         }
     }
 
     private fun likePost(postId: String) {
-        //val postId = "64b9d0c0e69fc1dcccd8fc3b"
         val likeViewModel = ViewModelProvider(this).get(LikeViewModel::class.java)
         likeViewModel.likePost(userId)
         likeViewModel.likeResult.observe(viewLifecycleOwner, Observer { response ->
@@ -267,27 +265,6 @@ class HomeFragment : androidx.fragment.app.Fragment(), OnLikeClickListener {
         }
         commentInput = viewBottomSheet.findViewById(R.id.editTextComment)
         btnSendComment = viewBottomSheet.findViewById(R.id.btnSendComment)
-//        btnSendComment.setOnClickListener {
-//            val newCommentText = commentInput.text.toString()
-//            if (newCommentText.isNotEmpty()) {
-//                // Create a new DataClassComments object with the new comment
-//                val newComment = DataClassComments(
-//                    //R.drawable.profile_chat,  // Set the profile image as per your requirement
-//                    "Vrunda Patel",  // Set the commenter's name as per your requirement
-//                    newCommentText
-//                )
-//
-//                commentAdapter.addComment(newComment)
-//
-//                // Update the adapter to reflect the changes
-//                commentAdapter.notifyDataSetChanged()
-//
-//                // Clear the comment input
-//                commentInput.text.clear()
-//            } else {
-//                Toast.makeText(context, "Please enter a comment", Toast.LENGTH_SHORT).show()
-//            }
-//        }
         createCommentViewModel = ViewModelProvider(this).get(CreateCommentViewModel::class.java)
         btnSendComment.setOnClickListener {
             val newCommentText = commentInput.text.toString()
@@ -309,11 +286,9 @@ class HomeFragment : androidx.fragment.app.Fragment(), OnLikeClickListener {
                             "Vrunda Patel",  // Set the commenter's name as per your requirement
                             createCommentResponse.content
                         )
-
-//                        commentAdapter.addComment(newComment)
-////
-////                // Update the adapter to reflect the changes
-//                        commentAdapter.notifyDataSetChanged()
+                        commentAdapter.addComment(newComment)
+                        // Update the adapter to reflect the changes
+                        commentAdapter.notifyDataSetChanged()
 //
 //                // Clear the comment input
                         commentInput.text.clear()
@@ -346,8 +321,11 @@ class HomeFragment : androidx.fragment.app.Fragment(), OnLikeClickListener {
                                 commentChat = commentItem.content
                             )
                         }
+                        val newComments = commentsList.filter { newComment ->
+                            !commentAdapter.containsComment(newComment)
+                        }
 
-                        commentAdapter.updateComments(commentsList)
+                        commentAdapter.updateComments(newComments)
                         commentAdapter.notifyDataSetChanged()
                     }
                 }
@@ -360,8 +338,6 @@ class HomeFragment : androidx.fragment.app.Fragment(), OnLikeClickListener {
                 }
             }
         })
-
-
 
         dialog.show()
     }
