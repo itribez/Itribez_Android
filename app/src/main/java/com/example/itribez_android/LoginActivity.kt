@@ -32,6 +32,7 @@ class LoginActivity : AppCompatActivity() {
     lateinit var btnLogin: Button
     lateinit var txtViewSignUp: TextView
     lateinit var btnGoogle: Button
+    lateinit var prgbar: ProgressBar
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
     private val viewModel by viewModels<LoginViewModel>()
@@ -44,6 +45,7 @@ class LoginActivity : AppCompatActivity() {
         btnLogin = findViewById(R.id.btnLogin)
         txtViewSignUp = findViewById(R.id.txtViewSignUp)
         btnGoogle = findViewById(R.id.btnGoogle)
+        prgbar = findViewById(R.id.prgbar)
         val token = SessionManager.getToken(this)
         if (!token.isNullOrBlank()) {
             navigateToHome()
@@ -51,33 +53,36 @@ class LoginActivity : AppCompatActivity() {
         viewModel.loginResult.observe(this) {
             when (it) {
                 is BaseResponse.Loading -> {
-                    //showLoading()
+                    showLoading()
                 }
 
                 is BaseResponse.Success -> {
-                    //stopLoading()
+                    stopLoading()
                     SessionManager.saveBool(applicationContext,SessionManager.IS_LOGIN, true)
                     processLogin(it.data)
                 }
+
                 is BaseResponse.Error -> {
                     processError(it.msg)
                 }
+
             }
         }
-        firebaseAuth = FirebaseAuth.getInstance()
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-             .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-
-        googleSignInClient = GoogleSignIn.getClient(this, gso)
-        btnGoogle.setOnClickListener {
-            signInGoogle()
-        }
+//        firebaseAuth = FirebaseAuth.getInstance()
+//        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//            .requestIdToken(getString(R.string.default_web_client_id))
+//            .requestEmail()
+//            .build()
+//
+//        googleSignInClient = GoogleSignIn.getClient(this, gso)
+//        btnGoogle.setOnClickListener {
+//            signInGoogle()
+//        }
         txtViewSignUp.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
         }
+
         btnLogin.setOnClickListener {
             doLogin()
         }
@@ -104,16 +109,22 @@ class LoginActivity : AppCompatActivity() {
     private fun showToast(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
+    private fun stopLoading() {
+        prgbar.visibility = View.GONE
+    }
+    private fun showLoading() {
+        prgbar.visibility = View.VISIBLE
+    }
     private fun navigateToHome() {
         val intent = Intent(this, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
         startActivity(intent)
     }
-    private fun signInGoogle() {
-        val signInIntent = googleSignInClient.signInIntent
-        launcher.launch(signInIntent)
-    }
+//    private fun signInGoogle() {
+//        val signInIntent = googleSignInClient.signInIntent
+//        launcher.launch(signInIntent)
+//    }
     private val launcher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -147,9 +158,9 @@ class LoginActivity : AppCompatActivity() {
     }
     override fun onStart() {
         super.onStart()
-        if (firebaseAuth.currentUser != null) {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
+//        if (firebaseAuth.currentUser != null) {
+//            val intent = Intent(this, MainActivity::class.java)
+//            startActivity(intent)
+//        }
     }
 }
