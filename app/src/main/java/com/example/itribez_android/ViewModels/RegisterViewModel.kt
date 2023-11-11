@@ -12,14 +12,13 @@ import kotlinx.coroutines.launch
 
 class RegisterViewModel (application: Application) : AndroidViewModel(application) {
 
-    val userRepo = UserRepository()
+    val userRepo = UserRepository(application)
     val registerResult: MutableLiveData<BaseResponse<RegisterResponse?>> = MutableLiveData()
     fun registerUser(email: String, password: String) {
 
         registerResult.value = BaseResponse.Loading()
         viewModelScope.launch {
             try {
-
                 val registerRequest = RegisterRequest(
                      email, password
                 )

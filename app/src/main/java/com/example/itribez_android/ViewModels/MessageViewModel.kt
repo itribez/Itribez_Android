@@ -12,7 +12,7 @@ import com.example.itribez_android.Repository.UserRepository
 import kotlinx.coroutines.launch
 
 class MessageViewModel(application: Application) : AndroidViewModel(application) {
-    val userRepo = UserRepository()
+   /* val userRepo = UserRepository()
     val postResult: MutableLiveData<BaseResponse<PostResponse?>> = MutableLiveData()
 
     fun postUser(token: String) {
@@ -32,5 +32,5 @@ class MessageViewModel(application: Application) : AndroidViewModel(application)
                 postResult.value = BaseResponse.Error(ex.message)
             }
         }
-    }
+    }*/
 }

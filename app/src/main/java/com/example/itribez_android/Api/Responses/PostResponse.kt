@@ -25,6 +25,8 @@ data class PostResponse(
         @SerializedName("likes")
         var likes: ArrayList<String>? = null,
         @SerializedName("comments")
-        var comments: ArrayList<String>? = null
+        var comments: ArrayList<String>? = null,
+        var isLiked:Boolean?=false,
+        var likeCount:Int
     )
 }

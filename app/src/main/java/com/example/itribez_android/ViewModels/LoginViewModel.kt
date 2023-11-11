@@ -13,7 +13,7 @@ import com.example.itribez_android.utils.SessionManager
 import kotlinx.coroutines.launch
 
 class LoginViewModel(application: Application) : AndroidViewModel(application) {
-    val userRepo = UserRepository()
+    val userRepo = UserRepository(application)
     val loginResult: MutableLiveData<BaseResponse<LoginResponse?>> = MutableLiveData()
     var authToken: String? = null
     fun loginUser(email: String, pwd: String) {

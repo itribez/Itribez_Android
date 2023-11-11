@@ -1,16 +1,24 @@
 package com.example.itribez_android.Api.Methods
 
 import com.example.itribez_android.Api.ApiClient
+import com.example.itribez_android.Api.Requests.CreateCommentRequest
+import com.example.itribez_android.Api.Requests.LikeRequest
 import com.example.itribez_android.Api.Requests.LoginRequest
 import com.example.itribez_android.Api.Requests.RegisterRequest
+import com.example.itribez_android.Api.Requests.UnlikeRequest
+import com.example.itribez_android.Api.Responses.CommentResponse
+import com.example.itribez_android.Api.Responses.CreateCommentResponse
+import com.example.itribez_android.Api.Responses.LikeResponse
 import com.example.itribez_android.Api.Responses.LoginResponse
 import com.example.itribez_android.Api.Responses.PostResponse
 import com.example.itribez_android.Api.Responses.RegisterResponse
+import com.example.itribez_android.Api.Responses.UnlikeResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface UserApi {
@@ -20,6 +28,30 @@ interface UserApi {
     suspend fun registerUser(@Body registerRequest: RegisterRequest): Response<RegisterResponse>
     @GET("/post/posts")
     suspend fun getAllPost(@Header("Authorization")token:String):Response<PostResponse>
+  /*  @PUT("/post/64b9d0c0e69fc1dcccd8fc3b/like")  // Adjust the endpoint path as needed
+    suspend fun likePost(@Header("Authorization") token: String,@Body likeRequest: LikeRequest): Response<LikeResponse>
+
+    // @Headers("Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGI5NTBiZjU1MGU2NjEwYjg1ZmVkOTYiLCJpYXQiOjE2OTUwNzgxNjh9.7inPEfis6ChMWuV3EKwNLqn_i7QxmvRnHhbq5t6rNSM")
+    @PUT("/post/64b9d0c0e69fc1dcccd8fc3b/unlike")  // Adjust the endpoint path as needed
+    suspend fun unlikePost(@Header("Authorization") token: String,@Body unlikeRequest: UnlikeRequest): Response<UnlikeResponse>
+  */
+  @PUT("/post/{postId}/like")
+  suspend fun likePost(
+      @Header("Authorization") token: String,
+      @Path("postId") postId: String,
+      @Body likeRequest: LikeRequest
+  ): Response<LikeResponse>
+
+    @PUT("/post/{postId}/unlike")
+    suspend fun unlikePost(
+        @Header("Authorization") token: String,
+        @Path("postId") postId: String,
+        @Body unlikeRequest: UnlikeRequest
+    ): Response<UnlikeResponse>
+    @POST("comment/create")
+    suspend fun createComment(@Header("Authorization") token: String,@Body createCommentRequest: CreateCommentRequest) : Response<CreateCommentResponse>
+    @GET("comment/post/{postId}/comments")
+    suspend fun getComments(@Header("Authorization") token: String, @Path("postId") postId: String,) : Response<CommentResponse>
     companion object {
         fun getApi(): UserApi? {
             return ApiClient.client?.create(UserApi::class.java)
