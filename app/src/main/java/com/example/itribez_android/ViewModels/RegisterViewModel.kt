@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 class RegisterViewModel (application: Application) : AndroidViewModel(application) {
 
-    val userRepo = UserRepository()
+    val userRepo = UserRepository(application)
     val registerResult: MutableLiveData<BaseResponse<RegisterResponse?>> = MutableLiveData()
     fun registerUser(email: String, password: String) {
 
@@ -21,7 +21,7 @@ class RegisterViewModel (application: Application) : AndroidViewModel(applicatio
             try {
 
                 val registerRequest = RegisterRequest(
-                     email, password
+                    email, password
                 )
                 val response = userRepo.registerUser(registerRequest = registerRequest)
 //                Log.d("ResponseCode", response?.code().toString())
