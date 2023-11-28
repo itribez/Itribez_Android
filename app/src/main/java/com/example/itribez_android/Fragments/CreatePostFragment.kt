@@ -37,7 +37,6 @@ import com.example.itribez_android.R
 import com.example.itribez_android.utils.SessionManager
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_beforepost.photo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
