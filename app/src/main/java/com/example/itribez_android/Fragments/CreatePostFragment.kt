@@ -172,7 +172,7 @@ class CreatePostFragment : Fragment() {
             //        config.put("secure", true);
             MediaManager.init(requireContext(), config)
 
-            isMediaManagerInitialized = true
+
         }
     }
 
@@ -263,43 +263,49 @@ class CreatePostFragment : Fragment() {
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, REQUEST_GALLERY)
-
     }
+
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        Log.d(TAG, "onActivityResult: requestCode=$requestCode, resultCode=$resultCode")
+
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
+                REQUEST_GALLERY -> {
+                    val selectedImageUri = data?.data
+                    Log.d(TAG, "Gallery selectedImageUri=$selectedImageUri")
+
+                    if (selectedImageUri != null) {
+                        val (bitmap, uri) = convertUriToBitmap(selectedImageUri)
+
+                        // Use Glide to load the image directly into the ImageView
+                        Glide.with(this)
+                            .load(selectedImageUri)
+                            .into(imageView)
+
+                        // Update imagePath and selectedImageBase64
+                        imagePath = uri
+                        selectedImageBase64 = bitmap?.let { convertImageToBase64(it) }
+
+                        Log.d(TAG, "Gallery image loaded into ImageView")
+                    } else {
+                        Log.e(TAG, "Selected image URI is null")
+                    }
+                }
                 REQUEST_IMAGE_CAPTURE -> {
                     val imageBitmap = data?.extras?.get("data") as Bitmap
                     imageView.setImageBitmap(imageBitmap)
                     selectedImageBase64 = convertImageToBase64(imageBitmap)
-                    // Convert the bitmap to a URI and assign it to the imagePath variable
                     val uri = getImageUri(requireContext(), imageBitmap)
                     imagePath = uri
-
-                }
-                REQUEST_GALLERY -> {
-                    val selectedImageUri = data?.data
-                    if (selectedImageUri != null) {
-                        imagePath = selectedImageUri
-                        selectedImageBase64 = convertImageToBase64(selectedImageUri)
-                        val imageBitmap = convertUriToBitmap(imagePath!!)
-                        imageView.setImageBitmap(imageBitmap)
-
-                    } else {
-                        // Handle the case when selectedImageUri is null
-                        Log.e(TAG, "Selected image URI is null")
-                    }
-
+                    Log.d(TAG, "Camera imageBitmap set")
                 }
             }
         }
     }
-    private fun convertUriToBitmap(uri: Uri): Bitmap? {
-        val inputStream = requireActivity().contentResolver.openInputStream(uri)
-        return BitmapFactory.decodeStream(inputStream)
-    }
+
     private fun convertImageToBase64(bitmap: Bitmap): String {
         val byteArrayOutputStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
@@ -307,17 +313,7 @@ class CreatePostFragment : Fragment() {
         return Base64.encodeToString(imageBytes, Base64.DEFAULT)
     }
 
-    private fun convertImageToBase64(uri: Uri): String? {
-        val inputStream = requireActivity().contentResolver.openInputStream(uri)
-        val imageBitmap = BitmapFactory.decodeStream(inputStream)
-        if (imageBitmap != null) {
-            val byteArrayOutputStream = ByteArrayOutputStream()
-            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
-            val imageBytes: ByteArray = byteArrayOutputStream.toByteArray()
-            return Base64.encodeToString(imageBytes, Base64.DEFAULT)
-        }
-        return null
-    }
+
 
     private fun getImageUri(inContext: Context, inImage: Bitmap): Uri {
         val bytes = ByteArrayOutputStream()
@@ -330,6 +326,13 @@ class CreatePostFragment : Fragment() {
         )
         return Uri.parse(path)
     }
+
+    private fun convertUriToBitmap(uri: Uri): Pair<Bitmap?, Uri?> {
+        val inputStream = requireActivity().contentResolver.openInputStream(uri)
+        val bitmap = BitmapFactory.decodeStream(inputStream)
+        return Pair(bitmap, uri)
+    }
+
     private fun sendCreatePostRequest(createPostRequest: CreatePostRequest,jwtToken: String) {
 
         // Use Dispatchers.IO for network operations in coroutines
@@ -353,6 +356,8 @@ class CreatePostFragment : Fragment() {
                     val responseBody = response.body?.string()
                     activity?.runOnUiThread {
                         Log.d(TAG, "Response successful: $responseBody $jwtToken")
+
+
 
                         val createpost = CreatePostFragment()
                         val args = Bundle()
@@ -382,7 +387,17 @@ class CreatePostFragment : Fragment() {
                     }
 
                     override fun onSuccess(requestId: String, resultData: Map<*, *>) {
-                        Log.d(TAG, "onStart: ")
+                        Log.d(TAG, "onStart: $requestId")
+                        val cloudinaryResponse = Gson().toJson(resultData)
+
+                        // Now you can use cloudinaryResponse as needed, e.g., extract public_id
+                        val publicId = extractPublicIdFromCloudinaryResponse(cloudinaryResponse)
+
+                        activity?.runOnUiThread {
+
+                            // Handle success here, and use the public ID as needed
+                            handleSuccessfulResponse(publicId)
+                        }
                     }
 
                     override fun onError(requestId: String, error: ErrorInfo) {
@@ -403,7 +418,28 @@ class CreatePostFragment : Fragment() {
             }
         }
     }
+    private fun extractPublicIdFromCloudinaryResponse(responseBody: String?): String? {
+        // Parse the Cloudinary response to extract the public ID
+        // Adjust this based on the actual structure of your Cloudinary response
+        val jsonResponse = Gson().fromJson(responseBody, Map::class.java)
+        val publicId = jsonResponse["public_id"]
+        return publicId as? String
+    }
 
+    private fun handleSuccessfulResponse(publicId: String?) {
+        if (publicId != null) {
+            // Do something with the public ID, such as storing it or using it in further operations
+            Log.d(TAG, "Public ID: $publicId")
+
+            // Print the public ID
+            Toast.makeText(requireContext(), "Public ID: $publicId", Toast.LENGTH_SHORT).show()
+        } else {
+            Log.e(TAG, "Failed to extract public ID from Cloudinary response")
+            Toast.makeText(requireContext(), "Failed to extract public ID from Cloudinary response", Toast.LENGTH_SHORT).show()
+        }
+
+        // Optionally, perform additional actions after a successful response
+    }
 
 //    private fun uploadImageToCloudinary(imageBase64: String?) {
 //        // Use the Cloudinary SDK to upload the image

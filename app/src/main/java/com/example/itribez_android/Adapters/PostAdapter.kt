@@ -18,7 +18,8 @@ import com.example.itribez_android.R
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
-class PostAdapter(var list: ArrayList<PostResponse.PostItem>,private val likeClickListener: OnLikeClickListener) :
+class
+PostAdapter(var list: ArrayList<PostResponse.PostItem>,private val likeClickListener: OnLikeClickListener) :
     RecyclerView.Adapter<PostAdapter.ViewHolder>() {
     var onItemClick: ((PostResponse.PostItem) -> Unit)? = null
     var selectedPostPosition: Int = -1
