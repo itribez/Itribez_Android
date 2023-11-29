@@ -66,10 +66,11 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun doRegister() {
-        val userName = editTextFirstName.text.toString() + editTextLastName.text.toString()
+        val firstname=editTextFirstName.text.toString()
+        val lastname = editTextLastName.text.toString()
         val email = editTextSignUpEmail.text.toString()
         val password = editTextSignUpPassword.text.toString()
-        viewModel.registerUser(email, password)
+        viewModel.registerUser(firstname,lastname,email,password)
     }
     private fun processError(message: String?) {
         showToast("Error:$message")
@@ -89,7 +90,6 @@ class SignUpActivity : AppCompatActivity() {
     private fun showToast(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
-
 
     private fun navigateToHome() {
         val intent = Intent(this, MainActivity::class.java)

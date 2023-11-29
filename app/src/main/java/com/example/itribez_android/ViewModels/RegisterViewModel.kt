@@ -14,14 +14,14 @@ class RegisterViewModel (application: Application) : AndroidViewModel(applicatio
 
     val userRepo = UserRepository(application)
     val registerResult: MutableLiveData<BaseResponse<RegisterResponse?>> = MutableLiveData()
-    fun registerUser(email: String, password: String) {
+    fun registerUser(firstname:String,lastname:String,email: String, password: String) {
 
         registerResult.value = BaseResponse.Loading()
         viewModelScope.launch {
             try {
 
                 val registerRequest = RegisterRequest(
-                    email, password
+                    email, password,firstname, lastname
                 )
                 val response = userRepo.registerUser(registerRequest = registerRequest)
 //                Log.d("ResponseCode", response?.code().toString())
