@@ -61,6 +61,7 @@ class CreatePostFragment : Fragment() {
     private var config: MutableMap<String, Any> = HashMap()
     private var imagePath: Uri? = null
     private var isMediaManagerInitialized = false
+    private var publicId: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -355,7 +356,7 @@ class CreatePostFragment : Fragment() {
                 if (response.isSuccessful) {
                     val responseBody = response.body?.string()
                     activity?.runOnUiThread {
-                        Log.d(TAG, "Response successful: $responseBody $jwtToken")
+                        Log.d(TAG, "Response successful: $responseBody")
 
 
 
@@ -428,7 +429,9 @@ class CreatePostFragment : Fragment() {
 
     private fun handleSuccessfulResponse(publicId: String?) {
         if (publicId != null) {
+
             // Do something with the public ID, such as storing it or using it in further operations
+            this.publicId = publicId
             Log.d(TAG, "Public ID: $publicId")
 
             // Print the public ID

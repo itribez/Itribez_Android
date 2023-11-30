@@ -6,10 +6,10 @@ class CreatePostResponse (
     val user: String,
     @SerializedName("content")
     val content: String,
+    @SerializedName("publicId")
+    val publicId: String?,
     @SerializedName("createdAt")
     val createdAt: String,
-    @SerializedName("location")
-    val photo: String,
     @SerializedName("tags")
     val tags: List<String>,
     @SerializedName("comments")
@@ -20,5 +20,7 @@ class CreatePostResponse (
     val id: String,
     @SerializedName("__v")
     val version: Int,
+    @SerializedName("photo")
+    val photo: String,
 
     )

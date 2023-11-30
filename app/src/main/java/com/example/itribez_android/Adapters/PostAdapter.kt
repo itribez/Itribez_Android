@@ -36,6 +36,7 @@ PostAdapter(var list: ArrayList<PostResponse.PostItem>,private val likeClickList
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val userItem = list[position]
         holder.bind(userItem)
+        val publicId = userItem.publicId
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -69,13 +70,14 @@ PostAdapter(var list: ArrayList<PostResponse.PostItem>,private val likeClickList
             if (postItem.photo != null) {
 
 
-//                val imageUrl = "https://res.cloudinary.com/dzv1vpd2v/image/upload/f_auto,q_auto/o2zi8rjetqbi81l2kbrl"
+                val imageUrl = "https://res.cloudinary.com/dzv1vpd2v/image/upload/f_auto,q_auto/${postItem.publicId}"
                 val imageBytes = Base64.decode(postItem.photo, Base64.DEFAULT)
                 Glide.with(itemView.context)
                     .load(imageBytes)
                     .placeholder(R.drawable.placeholder) // Use a placeholder image
 //                    .error(R.drawable.error_image_placeholder) // Use an error image or any other error handling
                     .into(postImage)
+                Log.d("PublicId", "Public ID: ${postItem.publicId}")
             } else {
                 // Handle the case where there is no photo URL
                 // You can hide the ImageView or set a default image
