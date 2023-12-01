@@ -1,5 +1,3 @@
-package com.example.itribez_android.Fragments
-
 import android.Manifest
 import android.app.Activity
 import android.content.ContentValues.TAG
@@ -25,6 +23,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+<<<<<<< Updated upstream
 import com.example.itribez_android.R
 import com.example.itribez_android.RoomDatabase.PostDao
 import com.example.itribez_android.RoomDatabase.PostDatabase
@@ -37,13 +36,49 @@ class CreatePostFragment : Fragment() {
 
     private val REQUEST_IMAGE_CAPTURE = 1
     private val REQUEST_GALLERY = 2
+=======
+import com.example.itribez_android.Api.Requests.CreatePostRequest
+import com.example.itribez_android.R
+import com.example.itribez_android.utils.SessionManager
+import com.google.gson.Gson
+import com.cloudinary.android.MediaManager
+import com.cloudinary.android.callback.ErrorInfo
+import com.cloudinary.android.callback.UploadCallback
+import com.example.itribez_android.Fragments.HomeFragment
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.ByteArrayOutputStream
+import java.io.IOException
+
+class CreatePostFragment : Fragment() {
+
+    private val REQUEST_CAMERA_PERMISSION = 0
+    private val REQUEST_GALLERY_PERMISSION = 1
+    private val REQUEST_IMAGE_CAPTURE = 2
+    private val REQUEST_GALLERY = 3
+
+>>>>>>> Stashed changes
     private lateinit var imageView: ImageView
-    private var selectedOption: Int = -1
     private lateinit var descriptionEditText: EditText
     private lateinit var locationEditText: EditText
     private lateinit var tagEditText: EditText
     private lateinit var imageView1: ImageView
+<<<<<<< Updated upstream
     private lateinit var postDao: PostDao
+=======
+    private var selectedOption: Int = -1
+    private var selectedImageBase64: String? = null
+    private var imagePath: Uri? = null
+
+    private var config: MutableMap<String, Any> = HashMap()
+    private var isMediaManagerInitialized = false
+    private var publicId: String? = null
+>>>>>>> Stashed changes
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,10 +93,13 @@ class CreatePostFragment : Fragment() {
         postDao = db.postDao()
         imageView = view.findViewById(R.id.img)
         imageView1 = view.findViewById(R.id.back)
+
         imageView.setOnClickListener {
             showImageSourceDialog()
         }
+
         val postButton: Button = view.findViewById(R.id.postbutton)
+<<<<<<< Updated upstream
         postButton.setOnClickListener {
             //Retrieve the text from EditText fields
             val post = PostEntity()
@@ -101,19 +139,37 @@ class CreatePostFragment : Fragment() {
 
             Log.d("CreatePostFragment", "Tag: $tag")
 
+=======
+
+        postButton.setOnClickListener {
+            initConfig()
+            val description = descriptionEditText.text.toString()
+            val location = locationEditText.text.toString()
+            val tagsString = tagEditText.text.toString()
+            val tags = ArrayList(tagsString.split(",").map { it.trim() })
+
+            val jwtToken = SessionManager.getToken(requireContext())
+
+            if (jwtToken != null) {
+                val userId = SessionManager.getUserId(requireContext())
+                val createPostRequest = CreatePostRequest(userId, location, description, tags, selectedImageBase64)
+                sendCreatePostRequest(createPostRequest, jwtToken)
+            } else {
+                Log.e("ContentValues.TAG", "Token is null")
+            }
+
+            Log.d(TAG, "onCreateView: $description $location $tag ")
+>>>>>>> Stashed changes
         }
 
         imageView1.setOnClickListener {
-            // Replace this with the Fragment you want to navigate to
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.placeHolder, HomeFragment())
-                .addToBackStack(null)
-                .commit()
+            navigateToHomeFragment()
         }
 
         return view
     }
 
+<<<<<<< Updated upstream
     private fun showImageSourceDialog() {
         val options = arrayOf<CharSequence>("Open Camera", "Choose from Gallery")
 
@@ -129,12 +185,38 @@ class CreatePostFragment : Fragment() {
         builder.show()
     }
 
+=======
+    private fun navigateToHomeFragment() {
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.placeHolder, HomeFragment())
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun requestCameraPermission() {
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            arrayOf(Manifest.permission.CAMERA),
+            REQUEST_CAMERA_PERMISSION
+        )
+    }
+
+    private fun requestGalleryPermission() {
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+            REQUEST_GALLERY_PERMISSION
+        )
+    }
+
+>>>>>>> Stashed changes
     private fun checkCameraPermissionAndOpenCamera() {
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.CAMERA
             ) != PackageManager.PERMISSION_GRANTED
         ) {
+<<<<<<< Updated upstream
             ActivityCompat.requestPermissions(
                 requireActivity(),
                 arrayOf(Manifest.permission.CAMERA),
@@ -142,6 +224,9 @@ class CreatePostFragment : Fragment() {
 
             )
 
+=======
+            requestCameraPermission()
+>>>>>>> Stashed changes
         } else {
             openCamera()
         }
@@ -153,6 +238,7 @@ class CreatePostFragment : Fragment() {
                 Manifest.permission.READ_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED
         ) {
+<<<<<<< Updated upstream
             ActivityCompat.requestPermissions(
                 requireActivity(),
                 arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
@@ -160,11 +246,18 @@ class CreatePostFragment : Fragment() {
             )
 
         } else{
+=======
+            requestGalleryPermission()
+        } else {
+>>>>>>> Stashed changes
             openGallery()
         }
 
+<<<<<<< Updated upstream
     }
 
+=======
+>>>>>>> Stashed changes
     private fun openCamera() {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         if (takePictureIntent.resolveActivity(requireActivity().packageManager) != null) {
@@ -179,6 +272,7 @@ class CreatePostFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+<<<<<<< Updated upstream
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 REQUEST_IMAGE_CAPTURE -> {
@@ -190,11 +284,34 @@ class CreatePostFragment : Fragment() {
                     Glide.with(this)
                         .load(selectedImageUri)
                         .into(imageView)
+=======
+
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                REQUEST_GALLERY -> {
+                    val selectedImageUri = data?.data
+                    if (selectedImageUri != null) {
+                        val (bitmap, uri) = convertUriToBitmap(selectedImageUri)
+                        Glide.with(this).load(selectedImageUri).into(imageView)
+                        imagePath = uri
+                        selectedImageBase64 = bitmap?.let { convertImageToBase64(it) }
+                    } else {
+                        Log.e(TAG, "Selected image URI is null")
+                    }
+                }
+                REQUEST_IMAGE_CAPTURE -> {
+                    val imageBitmap = data?.extras?.get("data") as Bitmap
+                    imageView.setImageBitmap(imageBitmap)
+                    selectedImageBase64 = convertImageToBase64(imageBitmap)
+                    val uri = getImageUri(requireContext(), imageBitmap)
+                    imagePath = uri
+>>>>>>> Stashed changes
                 }
             }
         }
     }
 
+<<<<<<< Updated upstream
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -230,3 +347,145 @@ class CreatePostFragment : Fragment() {
         }
     }
 }
+=======
+    private fun convertImageToBase64(bitmap: Bitmap): String {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+        val imageBytes: ByteArray = byteArrayOutputStream.toByteArray()
+        return Base64.encodeToString(imageBytes, Base64.DEFAULT)
+    }
+
+    private fun getImageUri(inContext: Context, inImage: Bitmap): Uri {
+        val bytes = ByteArrayOutputStream()
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val path: String = MediaStore.Images.Media.insertImage(
+            inContext.contentResolver,
+            inImage,
+            "Title",
+            null
+        )
+        return Uri.parse(path)
+    }
+
+    private fun convertUriToBitmap(uri: Uri): Pair<Bitmap?, Uri?> {
+        val inputStream = requireActivity().contentResolver.openInputStream(uri)
+        val bitmap = BitmapFactory.decodeStream(inputStream)
+        return Pair(bitmap, uri)
+    }
+
+    private fun initConfig() {
+        if (!isMediaManagerInitialized) {
+            config["cloud_name"] = "dzv1vpd2v"
+            config["api_key"] = "874536865334618"
+            config["api_secret"] = "zFa7GgUs0RTcXpOJryVgJXpi02U"
+            MediaManager.init(requireContext(), config)
+            isMediaManagerInitialized = true
+        }
+    }
+
+    private fun showImageSourceDialog() {
+        val options = arrayOf<CharSequence>("Open Camera", "Choose from Gallery")
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Select Image Source")
+        builder.setItems(options) { _, item ->
+            selectedOption = item
+            when (item) {
+                0 -> checkCameraPermissionAndOpenCamera()
+                1 -> checkGalleryPermissionAndOpenGallery()
+            }
+        }
+        builder.show()
+    }
+
+    private fun sendCreatePostRequest(createPostRequest: CreatePostRequest, jwtToken: String) {
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val client = OkHttpClient()
+
+                val request = Request.Builder()
+                    .url("https://itribez-node-apis.onrender.com/post/create")
+                    .header("Authorization", "Bearer $jwtToken")
+                    .post(
+                        Gson().toJson(createPostRequest).toRequestBody("application/json".toMediaTypeOrNull())
+                    )
+                    .build()
+
+                val response = client.newCall(request).execute()
+
+                if (response.isSuccessful) {
+                    val responseBody = response.body?.string()
+                    activity?.runOnUiThread {
+                        Log.d(TAG, "Response successful: $responseBody")
+
+                        val createpost = CreatePostFragment()
+                        val args = Bundle()
+                        args.putString("imageBase64", selectedImageBase64)
+                        createpost.arguments = args
+
+                        parentFragmentManager.beginTransaction()
+                            .replace(R.id.placeHolder, createpost)
+                            .addToBackStack(null)
+                            .commit()
+                    }
+                } else {
+                    activity?.runOnUiThread {
+                        Log.d(TAG, "Request failed: ${response.code}")
+                    }
+                }
+                MediaManager.get().upload(imagePath).callback(object : UploadCallback {
+                    override fun onStart(requestId: String) {
+                        Log.d(TAG, "onStart: ")
+                    }
+
+                    override fun onProgress(requestId: String, bytes: Long, totalBytes: Long) {
+                        Log.d(TAG, "onStart: ")
+                    }
+
+                    override fun onSuccess(requestId: String, resultData: Map<*, *>) {
+                        Log.d(TAG, "onStart: $requestId")
+                        val cloudinaryResponse = Gson().toJson(resultData)
+                        val publicId = extractPublicIdFromCloudinaryResponse(cloudinaryResponse)
+
+                        activity?.runOnUiThread {
+                            handleSuccessfulResponse(publicId)
+                        }
+                    }
+
+                    override fun onError(requestId: String, error: ErrorInfo) {
+                        Log.d(TAG, "onStart: ")
+                    }
+
+                    override fun onReschedule(requestId: String, error: ErrorInfo) {
+                        Log.d(TAG, "onStart: ")
+                    }
+                }).dispatch()
+            } catch (e: IOException) {
+                activity?.runOnUiThread {
+                    Log.e(TAG, "Network error: ${e.message}")
+                }
+            }
+        }
+    }
+
+    private fun extractPublicIdFromCloudinaryResponse(responseBody: String?): String? {
+        val jsonResponse = Gson().fromJson(responseBody, Map::class.java)
+        val publicId = jsonResponse["public_id"]
+        return publicId as? String
+    }
+
+    private fun handleSuccessfulResponse(publicId: String?) {
+        if (publicId != null) {
+            this.publicId = publicId
+            Log.d(TAG, "Public ID: $publicId")
+            Toast.makeText(requireContext(), "Public ID: $publicId", Toast.LENGTH_SHORT).show()
+        } else {
+            Log.e(TAG, "Failed to extract public ID from Cloudinary response")
+            Toast.makeText(
+                requireContext(),
+                "Failed to extract public ID from Cloudinary response",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+}
+>>>>>>> Stashed changes

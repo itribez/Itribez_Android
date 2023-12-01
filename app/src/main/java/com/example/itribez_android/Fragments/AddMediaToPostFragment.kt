@@ -1,5 +1,6 @@
 package com.example.itribez_android.Fragments
 
+import CreatePostFragment
 import android.content.Intent
 import com.example.itribez_android.R
 import android.Manifest

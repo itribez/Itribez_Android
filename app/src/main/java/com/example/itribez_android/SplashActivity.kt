@@ -15,8 +15,12 @@ import android.widget.ScrollView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.viewpager.widget.ViewPager
 import com.example.itribez_android.utils.SessionManager
+<<<<<<< Updated upstream
 import kotlinx.android.synthetic.main.activity_splash.indicator
 import android.view.MotionEvent
+=======
+import com.example.itribez_android.R
+>>>>>>> Stashed changes
 
 class SplashActivity : AppCompatActivity() {
     private val SPLASH_DURATION: Long = 5000 // 5 seconds
