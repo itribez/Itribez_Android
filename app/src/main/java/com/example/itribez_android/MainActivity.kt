@@ -1,5 +1,6 @@
 package com.example.itribez_android
 
+import CreatePostFragment
 import android.Manifest
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
@@ -11,7 +12,6 @@ import androidx.fragment.app.Fragment
 import com.example.itribez_android.Fragments.HomeFragment
 import com.example.itribez_android.Fragments.ProfileFragment
 import com.example.itribez_android.Fragments.AddMediaToPostFragment
-import com.example.itribez_android.Fragments.CreatePostFragment
 import com.example.itribez_android.Fragments.NotificationFragment
 import com.example.itribez_android.Fragments.SettingNotification
 import com.example.itribez_android.Fragments.Sound_And_Vibration
