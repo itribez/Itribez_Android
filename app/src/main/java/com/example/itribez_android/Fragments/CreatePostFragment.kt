@@ -270,38 +270,28 @@ class CreatePostFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.d(TAG, "onActivityResult: requestCode=$requestCode, resultCode=$resultCode")
-
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
-                REQUEST_GALLERY -> {
-                    val selectedImageUri = data?.data
-                    Log.d(TAG, "Gallery selectedImageUri=$selectedImageUri")
-
-                    if (selectedImageUri != null) {
-                        val (bitmap, uri) = convertUriToBitmap(selectedImageUri)
-
-                        // Use Glide to load the image directly into the ImageView
-                        Glide.with(this)
-                            .load(selectedImageUri)
-                            .into(imageView)
-
-                        // Update imagePath and selectedImageBase64
-                        imagePath = uri
-                        selectedImageBase64 = bitmap?.let { convertImageToBase64(it) }
-
-                        Log.d(TAG, "Gallery image loaded into ImageView")
-                    } else {
-                        Log.e(TAG, "Selected image URI is null")
-                    }
-                }
                 REQUEST_IMAGE_CAPTURE -> {
                     val imageBitmap = data?.extras?.get("data") as Bitmap
                     imageView.setImageBitmap(imageBitmap)
                     selectedImageBase64 = convertImageToBase64(imageBitmap)
-                    val uri = getImageUri(requireContext(), imageBitmap)
-                    imagePath = uri
-                    Log.d(TAG, "Camera imageBitmap set")
+                    // No need to convert bitmap to URI, directly use the bitmap for conversion
+                }
+                REQUEST_GALLERY -> {
+                    val selectedImageUri = data?.data
+                    if (selectedImageUri != null) {
+                        imagePath = selectedImageUri
+                        Glide.with(this)
+                            .load(selectedImageUri)
+                            .placeholder(R.drawable.placeholder) // Placeholder image
+                            .into(imageView)
+
+                    } else {
+                        // Handle the case when selectedImageUri is null
+                        Log.e(TAG, "Selected image URI is null")
+                    }
+
                 }
             }
         }
@@ -316,17 +306,31 @@ class CreatePostFragment : Fragment() {
 
 
 
-    private fun getImageUri(inContext: Context, inImage: Bitmap): Uri {
-        val bytes = ByteArrayOutputStream()
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-        val path: String = MediaStore.Images.Media.insertImage(
-            inContext.contentResolver,
-            inImage,
-            "Title",
-            null
-        )
-        return Uri.parse(path)
-    }
+//    private fun getImageUri(inContext: Context, inImage: Bitmap): Uri {
+//        val bytes = ByteArrayOutputStream()
+//        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+//
+//        val contentResolver = inContext.contentResolver
+//        if (contentResolver != null) {
+//            val path: String? = MediaStore.Images.Media.insertImage(
+//                contentResolver,
+//                inImage,
+//                "Title",
+//                null
+//            )
+//
+//            // Check if the path is not null before creating the Uri
+//            if (path != null) {
+//                return Uri.parse(path)
+//            } else {
+//                // Handle the case where path is null
+//                throw RuntimeException("Image path is null")
+//            }
+//        } else {
+//            // Handle the case where contentResolver is null
+//            throw RuntimeException("ContentResolver is null")
+//        }
+//    }
 
     private fun convertUriToBitmap(uri: Uri): Pair<Bitmap?, Uri?> {
         val inputStream = requireActivity().contentResolver.openInputStream(uri)
@@ -358,6 +362,10 @@ class CreatePostFragment : Fragment() {
                     activity?.runOnUiThread {
                         Log.d(TAG, "Response successful: $responseBody")
 
+
+
+
+                        // Pass the image path to the Cloudinary upload method
 
 
                         val createpost = CreatePostFragment()

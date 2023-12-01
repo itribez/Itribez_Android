@@ -28,6 +28,6 @@ data class PostResponse(
         var comments: ArrayList<String>? = null,
         var isLiked:Boolean?=false,
         var likeCount:Int,
-        val publicId: String?
+
     )
 }
