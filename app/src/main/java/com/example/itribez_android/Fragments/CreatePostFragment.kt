@@ -191,17 +191,19 @@ class CreatePostFragment : Fragment() {
         }
         builder.show()
     }
+
     private fun checkCameraPermissionAndOpenCamera() {
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.CAMERA
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
+            requestPermissions(
                 arrayOf(Manifest.permission.CAMERA),
-                0
+                REQUEST_IMAGE_CAPTURE
+
             )
+
         } else {
             openCamera()
         }
@@ -213,59 +215,31 @@ class CreatePostFragment : Fragment() {
                 Manifest.permission.READ_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
+            requestPermissions(
+//                requireActivity(),
                 arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                1
+                REQUEST_GALLERY
             )
-        } else {
 
+        } else{
             openGallery()
         }
-    }
 
-//    private fun openCamera() {
-//        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-//        takePicture.launch(takePictureIntent)
-//    }
-//
-//    private fun openGallery() {
-//        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-//        gallery.launch(intent)
-//    }
-//
-//    private val takePicture = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-//        if (result.resultCode == Activity.RESULT_OK) {
-//            val imageBitmap = result.data?.extras?.get("data") as Bitmap
-//            imageView.setImageBitmap(imageBitmap)
-//        }
-//    }
-//
-//    private val gallery = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-//        if (result.resultCode == Activity.RESULT_OK) {
-//            val selectedImageUri = result.data?.data
-//            if (selectedImageUri != null) {
-//                selectedImageBase64 = convertImageToBase64(selectedImageUri)
-//                Glide.with(this)
-//                    .load(selectedImageUri)
-//                    .into(imageView)
-//                Log.d("Selected image","$selectedImageUri")
-//            }
-//        }
-//    }
+    }
 
     private fun openCamera() {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         if (takePictureIntent.resolveActivity(requireActivity().packageManager) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+
         }
     }
 
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, REQUEST_GALLERY)
-    }
 
+    }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -276,16 +250,19 @@ class CreatePostFragment : Fragment() {
                     val imageBitmap = data?.extras?.get("data") as Bitmap
                     imageView.setImageBitmap(imageBitmap)
                     selectedImageBase64 = convertImageToBase64(imageBitmap)
-                    // No need to convert bitmap to URI, directly use the bitmap for conversion
+
                 }
                 REQUEST_GALLERY -> {
                     val selectedImageUri = data?.data
                     if (selectedImageUri != null) {
-                        imagePath = selectedImageUri
-                        Glide.with(this)
-                            .load(selectedImageUri)
-                            .placeholder(R.drawable.placeholder) // Placeholder image
-                            .into(imageView)
+                        data?.data?.let { selectedImageUri ->
+                            imagePath = selectedImageUri
+                            Glide.with(this)
+                                .load(selectedImageUri)
+                                .placeholder(R.drawable.placeholder) // Placeholder image
+                                .into(imageView)
+                            Log.d("Selected image", "$selectedImageUri")
+                        }
 
                     } else {
                         // Handle the case when selectedImageUri is null
@@ -346,12 +323,12 @@ class CreatePostFragment : Fragment() {
                 val client = OkHttpClient()
 
 
-
                 val request = Request.Builder()
                     .url("https://itribez-node-apis.onrender.com/post/create")
                     .header("Authorization", "Bearer $jwtToken")
                     .post(
-                        Gson().toJson(createPostRequest).toRequestBody("application/json".toMediaTypeOrNull())
+                        Gson().toJson(createPostRequest)
+                            .toRequestBody("application/json".toMediaTypeOrNull())
                     )
                     .build()
 
@@ -361,11 +338,6 @@ class CreatePostFragment : Fragment() {
                     val responseBody = response.body?.string()
                     activity?.runOnUiThread {
                         Log.d(TAG, "Response successful: $responseBody")
-
-
-
-
-                        // Pass the image path to the Cloudinary upload method
 
 
                         val createpost = CreatePostFragment()
@@ -386,37 +358,31 @@ class CreatePostFragment : Fragment() {
                         // Handle failure here
                     }
                 }
-                MediaManager.get().upload(imagePath).callback(object : UploadCallback {
-                    override fun onStart(requestId: String) {
-                        Log.d(TAG, "onStart: ")
-                    }
-
-                    override fun onProgress(requestId: String, bytes: Long, totalBytes: Long) {
-                        Log.d(TAG, "onStart: ")
-                    }
-
-                    override fun onSuccess(requestId: String, resultData: Map<*, *>) {
-                        Log.d(TAG, "onStart: $requestId")
-                        val cloudinaryResponse = Gson().toJson(resultData)
-
-                        // Now you can use cloudinaryResponse as needed, e.g., extract public_id
-                        val publicId = extractPublicIdFromCloudinaryResponse(cloudinaryResponse)
-
-                        activity?.runOnUiThread {
-
-                            // Handle success here, and use the public ID as needed
-                            handleSuccessfulResponse(publicId)
+                if (imagePath != null) {
+                    MediaManager.get().upload(imagePath).callback(object : UploadCallback {
+                        override fun onStart(requestId: String) {
+                            Log.d(TAG, "onStart: ")
                         }
-                    }
 
-                    override fun onError(requestId: String, error: ErrorInfo) {
-                        Log.d(TAG, "onStart: ")
-                    }
+                        override fun onProgress(requestId: String, bytes: Long, totalBytes: Long) {
+                            Log.d(TAG, "onStart: ")
+                        }
 
-                    override fun onReschedule(requestId: String, error: ErrorInfo) {
-                        Log.d(TAG, "onStart: ")
-                    }
-                }).dispatch()
+                        override fun onSuccess(requestId: String, resultData: Map<*, *>) {
+                            // Your existing code
+                        }
+
+                        override fun onError(requestId: String, error: ErrorInfo) {
+                            Log.d(TAG, "onStart: ")
+                        }
+
+                        override fun onReschedule(requestId: String, error: ErrorInfo) {
+                            Log.d(TAG, "onStart: ")
+                        }
+                    }).dispatch()
+                } else {
+                    Log.e(TAG, "Image path is null")
+                }
             }
 
             catch (e: IOException) {

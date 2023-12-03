@@ -1,0 +1,57 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Widget.Itribez_Android.AppWidget.Container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#87CEEB"
+    android:theme="@style/Theme.Itribez_Android.AppWidgetContainer">
+
+
+    <TextView
+        android:id="@+id/appwidget_label"
+        style="@style/Widget.Itribez_Android.AppWidget.InnerView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:text="How many people I meet today"
+        android:textSize="16sp"
+        android:textStyle="italic" />
+
+    <TextView
+        android:id="@+id/appwidget_text"
+        style="@style/Widget.Itribez_Android.AppWidget.InnerView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:textSize="24sp"
+        android:textStyle="bold|italic" />
+
+    <Button
+        android:id="@+id/appwidget_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/appwidget_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:text="Click Me"
+        android:clickable="true"
+        android:textColor="#FFFFFF"
+    android:background="#0000FF"
+    android:padding="8dp" />
+
+    <Button
+        android:id="@+id/appwidget_clear_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/appwidget_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:text="Clear"
+        android:clickable="true"
+        android:textColor="#FFFFFF"
+    android:background="#FF0000"
+    android:padding="8dp" />
+
+</RelativeLayout>
+

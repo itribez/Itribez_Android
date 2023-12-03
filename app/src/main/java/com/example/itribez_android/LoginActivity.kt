@@ -2,6 +2,7 @@ package com.example.itribez_android
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -12,6 +13,8 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.example.itribez_android.Api.Responses.BaseResponse
 import com.example.itribez_android.Api.Responses.LoginResponse
 import com.example.itribez_android.ViewModels.LoginViewModel
@@ -25,6 +28,9 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import java.util.Calendar
+import android.Manifest
+
 
 class LoginActivity : AppCompatActivity() {
     lateinit var editTextEmail: TextInputEditText
@@ -36,9 +42,11 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var googleSignInClient: GoogleSignInClient
     private val viewModel by viewModels<LoginViewModel>()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
         editTextEmail = findViewById(R.id.editTextEmailId)
         editTextPassword = findViewById(R.id.editTextPassword)
         btnLogin = findViewById(R.id.btnLogin)

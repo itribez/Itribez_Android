@@ -16,4 +16,7 @@
     <string name="val_empty_last_name">Enter LastName\n</string>
     <string name="val_empty_email">Enter Email Id\n</string>
     <string name="val_empty_pass">Enter 6 digit Password</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="app_widget_description">This is an app widget description</string>
 </resources>
