@@ -33,11 +33,11 @@
 
                 <ImageView
                     android:id="@+id/imageViewMessage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_width="57dp"
+                    android:layout_height="26dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/send_icon" />
+                    android:src="@drawable/logout" />
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>

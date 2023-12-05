@@ -5,6 +5,7 @@ package com.example.itribez_android.Fragments
 
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -25,6 +26,7 @@ import com.example.itribez_android.Api.Responses.BaseResponse
 import com.example.itribez_android.Api.Responses.LikeResponse
 import com.example.itribez_android.Api.Responses.PostResponse
 import com.example.itribez_android.Api.Responses.UnlikeResponse
+import com.example.itribez_android.LoginActivity
 import com.example.itribez_android.OnLikeClickListener
 import com.example.itribez_android.R
 import com.example.itribez_android.ViewModels.CommentViewModel
@@ -48,6 +50,7 @@ class HomeFragment : Fragment(), OnLikeClickListener {
     private lateinit var commentInput: EditText
     private lateinit var btnSendComment: ImageView
     private lateinit var userId: String
+
     //var postId = "6510b73f825da39d0826e8ce"
 
     @SuppressLint("NotifyDataSetChanged")
@@ -60,6 +63,12 @@ class HomeFragment : Fragment(), OnLikeClickListener {
         val userApi = UserApi.getApi()
         val imageBase64 = arguments?.getString("imageBase64")
 
+        val imageViewMessage: ImageView = view.findViewById(R.id.imageViewMessage)
+        imageViewMessage.setOnClickListener {
+            // Start LoginActivity when the ImageView is clicked
+            val intent = Intent(activity, LoginActivity::class.java)
+            startActivity(intent)
+        }
         recyclerView = view.findViewById(R.id.recycler_view_home)
         postViewModel = ViewModelProvider(this)[PostViewModel::class.java]
         recycleradapter = PostAdapter(arrayList, this)

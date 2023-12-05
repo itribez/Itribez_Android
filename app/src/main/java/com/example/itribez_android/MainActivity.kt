@@ -4,8 +4,10 @@ import android.Manifest
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.itribez_android.Fragments.HomeFragment
@@ -15,6 +17,7 @@ import com.example.itribez_android.Fragments.CreatePostFragment
 import com.example.itribez_android.Fragments.NotificationFragment
 import com.example.itribez_android.Fragments.SettingNotification
 import com.example.itribez_android.Fragments.Sound_And_Vibration
+import com.example.itribez_android.utils.SessionManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -33,6 +36,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val token = SessionManager.getToken(this)
+
+        // Check if the token is not null and print it
+        if (token != null) {
+            Log.d("token from home","$token")
+        } else {
+            println("Token not available")
+        }
         setContentView(R.layout.activity_main)
         loadFragment(HomeFragment())
         bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
@@ -94,6 +105,8 @@ class MainActivity : AppCompatActivity() {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.placeHolder, fragment)
         transaction.commit()
+
+
     }
 
     /*private fun openMessageFragment(messagesFragment: MessagesFragment) {
